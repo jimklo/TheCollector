@@ -49,6 +49,7 @@ define(function(){
     function getRelatedRubric(rubric) {
         return {
             objectType: "OER Rubric",
+            id: rubric.rubric,
             description: [ rubric.rubric, rubric.title ]
         }
 
