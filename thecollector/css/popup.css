@@ -16,11 +16,6 @@ div.rubric {
     font-size: 10pt;
 }
 
-#rate-it {
-      height:790px;
-    overflow: auto;
-}
-
 #rate-it label, #rate-it .field, .panel button, .panel > div, .Clear
 {
     display: block;
