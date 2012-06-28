@@ -1,0 +1,18 @@
+{
+    "name": "TheCollector",
+    "version": "0.1",
+    "description": "A Feedback Sensor into the Learning Registry.",
+    "background_page": "background.html",
+    "permissions": ["tabs", "http://learnreg1.sri.com/*", "https://jim-klos-macbook-pro.local:8443/*", "http://localhost:5984/*"],
+    "options_page": "options.html",
+    "browser_action": {
+        "default_icon": "icons/icon-16.png",
+        "default_title": "TheCollector",
+        "default_popup": "popup.html"
+    },
+    "icons": {
+        "128": "icons/icon-128.png",
+        "16": "icons/icon-16.png",
+        "48": "icons/icon-48.png"
+    }
+}

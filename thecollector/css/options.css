@@ -1,0 +1,35 @@
+div.hero {
+    background-image:       url(../images/learning-registry-logo-ds.png);
+    background-repeat:      no-repeat;
+    background-attachment:  fixed;
+    background-position:    left top;
+    height: 120px;
+    font: 48pt "Impact", Verdana, sans-serif;
+    padding-left: 300px;
+    /*color: #0D6DAB;*/
+    color: #6C6C6C;
+}
+
+label {
+    font: 14pt "Impact", Verdana, sans-serif;;
+    color: #6C6C6C;
+}
+
+p, p * {
+    color: #6C6C6C;
+}
+
+div.hero .green {
+    /*color: #8EB63E;*/
+    color: #6C6C6C;
+}
+
+.tabs label, .tabs input, .tabs select {
+    display: block;
+    width: 500px;
+}
+
+#status {
+    width: 100%;
+    height: 50px;
+}

@@ -1,0 +1,74 @@
+body {
+    width: 500px;
+    height: 800px;
+}
+
+div.rubric {
+    margin-bottom: 50px;
+}
+
+.rating_desc {
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+.treeview, .small_text {
+    font-size: 10pt;
+}
+
+#rate-it {
+      height:790px;
+    overflow: auto;
+}
+
+#rate-it label, #rate-it .field, .panel button, .panel > div, .Clear
+{
+    display: block;
+}
+
+.treeview {
+    width: 444px;
+/*    max-height:350px;*/
+    overflow: auto;
+}
+
+.hidden {
+    display: none;
+}
+
+
+.standards {
+    display: none;
+}
+
+
+.radio input {
+    float: left;
+    height: 10px;
+}
+
+.radio label {
+    font: 10pt Verdana, sans-serif;
+}
+
+.grades select {
+    background: transparent;
+    width: 268px;
+    padding: 5px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    height: 34px;
+}
+
+.Clear::after {
+    content: ".";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0;
+}
+
+label {
+    font: 12pt "Impact", Verdana, sans-serif;
+}

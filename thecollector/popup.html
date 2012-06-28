@@ -1,0 +1,347 @@
+<html>
+<head>
+    <title>Learning Registry</title>
+
+    <link type="text/css" href="css/start/jquery-ui-1.8.21.custom.css" rel="Stylesheet" />  
+    <link rel="stylesheet" href="css/jquery.rating.css">
+    <link rel="stylesheet" href="css/popup.css">
+    <script type="text/javascript" src="js/require-jquery.js" data-main="js/popup.js"></script>
+</head>
+<body>
+<div id="hero"></div>
+<div id="tabs">
+    <ul>
+        <li><a href="#rate-it">Rate It</a></li>
+        <li><a href="#what-others-say">What Others are Saying</a></li>
+    </ul>
+    <div id="rate-it" class="panel">
+        <label for="tab_title">Resource</label>
+        <div id="tab_title" class="small_text"></div>
+        <div id="tab_uri" class="small_text"></div>
+
+        <div class="accordion">
+            <h3><a href="#">Align to Common Core Standards</a></h3>
+            <div>
+                <label for="standardselector">Common Core Standard</label>
+                <div class="radio Clear">
+                <input type="radio" value="Literacy" name="standardselector" id="Literacy">
+                <label for="Literacy">Common Core State Standards for English</label>
+                </div>
+
+                <div class="radio Clear">
+                <input type="radio" value="Math" name="standardselector" id="Math">
+                <label for="Math">Common Core State Standards for Math</label>
+                </div>
+
+
+                <div class="standards">
+                <label for="grade-level">Grade Level</label>
+                <select id="grade-level" class="field grades">
+                    <option value="K">K</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                </select>
+
+                <label for="category-browser"></label>
+                <div id="category-browser" class="treeview hidden">
+                    <ul id="category-browser-list"></ul>
+                </div>
+                </div>
+                <input id="asn_dot_notation" type="hidden">
+                <input id="asn_text" type="hidden">
+                <input id="asn_url" type="hidden">
+
+
+            </div>
+            <h3><a href="#">Rate the Resource</a></h3>
+            <div>
+                <div class="Clear small_text rubric">
+                    <label for="rating">Quality of Explanation of the Subject Matter</label>
+                    <p>Applies to objects designed to explain subject matter. Used to rate how thoroughly subject matter is explained or otherwise revealed in the resource. Teachers might use object with whole class, small group, or individual student. Students might use this object to self-tutor.</p>
+                    <input name="rating" type="radio" class="hover-star required" title="Not Applicable" value="-1"/>
+                    <input name="rating" type="radio" class="hover-star required" title="Very Weak or No Value" value="0"/>
+                    <input name="rating" type="radio" class="hover-star required" title="Limited" value="1"/>
+                    <input name="rating" type="radio" class="hover-star required" title="Strong" value="2"/>
+                    <input name="rating" type="radio" class="hover-star required" title="Superior" value="3"/>
+                    <span id="rating_desc" class="rating_desc small_text"></span>
+                    <div class="description hidden " data-score="3">
+                        <p>An object is rated <em>superior</em> for content explanation if all of the following are true:</p>
+                        <ul>
+                            <li>Provides comprehensive information so effectively the target audience can easily understand the subject matter.</li>
+                            <li>Connects the subject matter with important associated concepts.</li>
+                            <li>Does not need to be augmented with additional explanation or materials.</li>
+                            <li>Main ideas of the subject matter and the object are clearly identified for the learner.</li>
+                        </ul>
+                    </div>
+                    <div class="description hidden" data-score="2">
+                        <p>An object is rated <em>strong</em> value for content explanation if the content is explained in a way that makes skills, procedures, concepts, and/or information understandable. It falls short of superior in that it does not make clear the important connections between and among the various aspects. </p>
+                        <p><em>For example, a lesson on multi-digit addition may focus on the procedure and fail to connect it with place value.</em></p>
+                    </div>
+                    <div class="description hidden" data-score="1">
+                        <p>An object is <em>limited</em> if it explains the subject matter correctly, but in a limited way.</p>
+                        <p>This is a cursory treatment of the content that is not developed enough to serve someone attempting to learn the content for the first time.</p>
+                        <p>The explanations are not thorough enough to serve as more than a review for most learners.</p>
+                    </div>
+                    <div class="description hidden" data-score="0">
+                        <p>An object is rated <em>very weak or no value</em> if its subject matter explanations are confusing or contain errors.</p>
+                        <p>There is little likelihood that this object will contribute to understanding.</p>
+                    </div>
+                    <div class="description hidden" data-score="-1">
+                        <p>This rubric is <em>not applicable</em> for an object that is not designed to explain content (e.g. a sheet of mathematical formulae, a map).</p>
+                        <p>It may be possible to apply the object in some way that aids a learner’s understanding, but that is beyond any obvious or described purpose of the object.</p>
+                    </div>
+                </div>
+  
+                <div class="Clear small_text rubric">
+                    <label for="rating2">Utility of Materials Designed to Support Teaching</label>
+                    <p>Applies to objects designed to support teachers in planning or presenting subject matter. Primary user would be teacher. Evaluates the potential utility of an object for the majority of instructors at the intended grade level.</p>
+                    <input name="rating2" type="radio" class="hover-star required" title="Not Applicable" value="-1"/>
+                    <input name="rating2" type="radio" class="hover-star required" title="Very Weak or No Value" value="0"/>
+                    <input name="rating2" type="radio" class="hover-star required" title="Limited" value="1"/>
+                    <input name="rating2" type="radio" class="hover-star required" title="Strong" value="2"/>
+                    <input name="rating2" type="radio" class="hover-star required" title="Superior" value="3"/>
+                    <span id="rating2_desc" class="rating_desc small_text"></span>
+                    <div class="description hidden " data-score="3">
+                        <p>An object is rated <em>superior</em> if all of the following are true:</p>
+                        <ul>
+                        <li>Materials are comprehensive and easy to understand and use. Includes suggestions for use with a variety of learners.</li>
+                        <li>All components are provided and function as intended, including estimate of planning time and materials list.</li>
+                        <li>For larger objects, materials facilitate mixed instructional approaches.</li>
+                        </ul>
+                    </div>
+                    <div class="description hidden" data-score="2">
+                        <p>An object is rated <em>strong</em> if it offers comprehensive, easy to understand and use materials. Falls short of Superior because either:</p>
+                        <ol>
+                        <li>Object does not include suggestions for ways to use materials with variety of learners, or</li>
+                        <li>core components are underdeveloped in the object.</li>
+                        </ol>
+                    </div>
+                    <div class="description hidden" data-score="1">
+                        <p>An object is rated <em>limited</em> if it includes a useful approach or idea to teach an important topic but falls short of a higher rating because either:</p>
+                        <ol>
+                        <li>the object is missing important elements, e.g. directions for some parts of a lesson are not included or </li>
+                        <li>important elements do not do what they should, e.g. directions are unclear. Teachers would need to supplement this object to use it effectively.</li>
+                        </ol>
+                    </div>
+                    <div class="description hidden" data-score="0">
+                        <p>An object is rated <em>very weak</em> or no value for instructional purposes if confusing, contains errors, is missing many important elements, or is simply not useful for some other reason.</p>
+                    </div>
+                    <div class="description hidden" data-score="-1">
+                        <p>This rubric is <em>not applicable</em> for an object that is not designed as a teacher’s instructional tool. </p>
+                        <p>An enterprising educator may find an application for such an object during a lesson, but that would be an unintended use.</p>
+                    </div>
+                </div>
+
+
+                <div class="Clear small_text rubric">
+                    <label for="rating3">Quality of Assessments</label>
+                    <p>Applies to objects designed to determine what a student knows before, during, or after a topic is taught. When many assessments are included in one object, the rubric is applied to the entire set.</p>
+                    <input name="rating3" type="radio" class="hover-star required" title="Not Applicable" value="-1"/>
+                    <input name="rating3" type="radio" class="hover-star required" title="Very Weak or No Value" value="0"/>
+                    <input name="rating3" type="radio" class="hover-star required" title="Limited" value="1"/>
+                    <input name="rating3" type="radio" class="hover-star required" title="Strong" value="2"/>
+                    <input name="rating3" type="radio" class="hover-star required" title="Superior" value="3"/>
+                    <span id="rating3_desc" class="rating_desc small_text"></span>
+                    <div class="description hidden " data-score="3">
+                        <p>An object is rated <em>superior</em> if all of the following are true:</p>
+                        <ul>
+                        <li>All concepts/skills assessed align clearly to content and performance expectations and included in the object’s material.</li>
+                        <li>Critical aspects are targeted and given appropriate weight/attention. </li>
+                        <li>Types of assessments offered require clear demonstration of proficiency. </li>
+                        <li>Any level of difficulty results from complexity of the subject area/cognitive demand, rather than unrelated issues (e.g. complex vocabulary).</li>
+                        </ul>
+                    </div>
+                    <div class="description hidden" data-score="2">
+                        <p>An object is rated <em>strong</em> if it assesses all or nearly all of the content and performance expectations intended, but the assessment mode(s) offered fail(s) to require that the student demonstrate proficiency in the intended concept/skill.</p>
+                    </div>
+                    <div class="description hidden" data-score="1">
+                        <p>An object is rated <em>limited</em> if it assesses some of the content or performance expectations intended, as stated or implicit in the object, but omits some important content or performance expectations.</p>
+                    </div>
+                    <div class="description hidden" data-score="0">
+                        <p>An object is rated <em>very weak or no value</em> if its assessments contain significant errors, do not assess important content or performance, are written in a way that is confusing to students or are unsound for other reasons.</p>
+                    </div>
+                    <div class="description hidden" data-score="-1">
+                        <p>This rubric is deemed <em>not applicable</em> for an object that is not designed to have an assessment component.</p>
+                        <p>Even if one might imagine ways an object could be used for assessment purposes, if it is not the intended purpose, not applicable is the appropriate score.</p>
+                    </div>
+                </div>
+
+
+                <div class="Clear small_text rubric">
+                    <label for="rating4">Quality of Technological Interactivity</label>
+                    <p>Applies to objects that have a technology-based interactive component. Used to rate degree and quality of an object’s interactivity. Interactivity broadly means that the object responds to the user – the object behaves differently based on what the user does. This is not a rating for technology in general, but for technological interactivity.</p>
+                    <input name="rating4" type="radio" class="hover-star required" title="Not Applicable" value="-1"/>
+                    <input name="rating4" type="radio" class="hover-star required" title="Very Weak or No Value" value="0"/>
+                    <input name="rating4" type="radio" class="hover-star required" title="Limited" value="1"/>
+                    <input name="rating4" type="radio" class="hover-star required" title="Strong" value="2"/>
+                    <input name="rating4" type="radio" class="hover-star required" title="Superior" value="3"/>
+                    <span id="rating4_desc" class="rating_desc small_text"></span>
+                    <div class="description hidden " data-score="3">
+                        <p>An object, or interactive component of an object, is rated <em>superior</em> if all are true:</p>
+                        <ul>
+                        <li>Responsive to student input in a way that creates an individualized learning experience, adapts to the learner based on what s/he does, or allows flexibility or individual control during the learning experience.</li>
+                        <li>Interactive element is purposeful and directly related to learning.</li>
+                        <li>The object is well-designed and easy-to-use, encouraging learner use.</li>
+                        <li>Appears to function flawlessly on the intended platform.</li>
+                        </ul>
+                    </div>
+                    <div class="description hidden" data-score="2">
+                        <p>An object, or interactive component of an object, is rated <em>strong</em> if the object has an interactive feature that is purposeful and directly related to learning, but does not provide an individualized learning experience.</p>
+                        <p>Strong interactive objects must also be well designed, easy-to-use, and function flawlessly. Some strong interactive elements (e.g. earning points or levels) might increase motivation and understanding by rewarding or entertaining, and may extend the time of user engagement.</p>
+                    </div>
+                    <div class="description hidden" data-score="1">
+                        <p>An object, or interactive component of an object, is rated <em>limited</em> if it does not relate to the content and may detract from the learning experience.</p>
+                        <p>Although it may slightly increase motivation, it is unlikely the interactive feature will increase understanding of extend the time a user engages with the content.</p>
+                    </div>
+                    <div class="description hidden" data-score="0">
+                        <p>An object, or interactive component of an object, is rated <em>very weak or no value</em> if it has interactive features that are poorly conceived and/or executed.</p>
+                        <p>The interactive features might fail to operate as intended, or the “bells and whistles” distract the user or unnecessarily take up user time.</p>
+                    </div>
+                    <div class="description hidden" data-score="-1">
+                        <p>This rubric is deemed <em>not applicable</em> for an object that does not contain an interactive element.</p>
+                    </div>
+                </div>
+
+                <div class="Clear small_text rubric">
+                    <label for="rating5">Quality of Instructional and Practice Exercises</label>
+                    <p>Applies to objects that contain exercises to help foundational skills and procedures become routine. When concepts and skills are introduced, providing a sufficient number of exercises to support skill acquisition is critical. However when integrating skills in complex tasks, as few as one or two may be sufficient. A group of practice exercises is treated as a single object, with the rubric applied to the entire set.</p>
+                    <input name="rating5" type="radio" class="hover-star required" title="Not Applicable" value="-1"/>
+                    <input name="rating5" type="radio" class="hover-star required" title="Very Weak or No Value" value="0"/>
+                    <input name="rating5" type="radio" class="hover-star required" title="Limited" value="1"/>
+                    <input name="rating5" type="radio" class="hover-star required" title="Strong" value="2"/>
+                    <input name="rating5" type="radio" class="hover-star required" title="Superior" value="3"/>
+                    <span id="rating5_desc" class="rating_desc small_text"></span>
+                    <div class="description hidden " data-score="3">
+                        <p>An object is rated <em>superior</em> if <em>ALL</em> of the following are true:</p>
+                        <ul>
+                            <li>Offers more exercises than needed, for the average student, to support mastery of targeted skills, as stated or implied in the object. (For complex tasks, one or two rich tasks may be more than enough.)</li>
+                            <li>Exercises are clearly written and supported by accurate answer keys/scoring guidelines.</li>
+                            <li>There are a variety of exercise types and/or formats, as appropriate, and/or a variety of skills integrated in the practice of more complex tasks.</li>
+                        </ul>
+                    </div>
+                    <div class="description hidden" data-score="2">
+                        <p>An object is rated <em>strong</em> if it offers only a sufficient number of well-written exercises to support mastery of targeted skills, which are supported by accurate answer keys, but provide little variety of exercise types or formats in more complex or integrated exercises.</p>
+                    </div>
+                    <div class="description hidden" data-score="1">
+                        <p>An object is rated <em>limited</em> if it includes some, but too few exercises, without answer keys, and with no variation in exercise type, format, or integrated skills.</p>
+                    </div>
+                    <div class="description hidden" data-score="0">
+                        <p>An object is rated <em>very weak or no value</em> if exercises provided do not do not facilitate mastery of the targeted skills, contains errors, or is unsound for other reasons.</p>
+                    </div>
+                    <div class="description hidden" data-score="-1">
+                        <p>This rubric is <em>not applicable</em> to an object that is not designed to provide learner practice.</p>
+                        <p>Even if one might imagine ways the object could be used as practice, not applicable is the appropriate score if that is not the intention of the object.</p>
+                    </div>
+                </div>
+
+
+                <div class="Clear small_text rubric">
+                    <label for="rating6">Opportunities for Deeper Learning</label>
+                    <p>Applies to objects that engage learners to: Think critically and solve complex problems. Reason abstractly. Work collaboratively. Learn how to learn. Communicate effectively. Construct viable arguments and critique the reasoning of others. Apply discrete knowledge and skills to real-world situations. Construct, use, or analyze models.</p>
+                    <input name="rating6" type="radio" class="hover-star required" title="Not Applicable" value="-1"/>
+                    <input name="rating6" type="radio" class="hover-star required" title="Very Weak or No Value" value="0"/>
+                    <input name="rating6" type="radio" class="hover-star required" title="Limited" value="1"/>
+                    <input name="rating6" type="radio" class="hover-star required" title="Strong" value="2"/>
+                    <input name="rating6" type="radio" class="hover-star required" title="Superior" value="3"/>
+                    <span id="rating6_desc" class="rating_desc small_text"></span>
+                    <div class="description hidden " data-score="3">
+                        <p>An object is rated <em>superior</em> when <em>ALL</em> the following are true:</p>
+                        <ul>
+                        <li><em>Three</em> or more of the deeper learning skills identified in this rubric are required.</li>
+                        <li>A range of cognitive demand appropriate to and supportive of material targeted are offered. </li>
+                        <li>Appropriate scaffolding and direction are provided.</li>
+                        </ul>
+                    </div>
+                    <div class="description hidden" data-score="2">
+                        <p>An object is rated <em>strong</em> if it contains <em>one or two</em> deeper learning skills identified in this rubric, such as an object that involves a complex problem that requires abstract reasoning skills to reach a solution.</p>
+                    </div>
+                    <div class="description hidden" data-score="1">
+                        <p>An object is rated <em>limited</em> if it includes one deeper learning skill identified in the rubric, but is missing clear guidance on how to tap into various aspects of deeper learning.</p>
+                        <p><em>For example, an object might include a provision for learners to collaborate, but the process and product are unclear.</em></p>
+                    </div>
+                    <div class="description hidden" data-score="0">
+                        <p>An object is rated <em>very weak</em> if it appears to be designed to provide some of the deeper learning opportunities but it is not useful in its present form.</p>
+                        <p>Might be based on poorly formulated problems and/or unclear directions, making it unlikely that this lesson or activity will lead to skills like critical thinking, abstract reasoning, constructing arguments, or modeling.</p>
+                    </div>
+                    <div class="description hidden" data-score="-1">
+                       <p>This rubric is <em>not applicable</em> to an object that does not appear to be designed to provide the opportunity for deeper learning, even though one might imagine how it could be used to do so.</p>
+                    </div>
+                </div>
+
+
+            </div>
+            <h3><a href="#">Publish to Learning Registry</a></h3>
+            <div class="small_text">
+                
+                <p>By clicking <em>Publish</em>, You have read and agree to the Learning Registry's <a href="http://www.learningregistry.org/tos" target="_blank">Terms of Service and License options</a> and selected the option appropriate for yourself.</p>
+                <label for="tos">Terms Of Service / License</label>
+                <select name="tos" id="tos">
+                    <option value=""></option>
+                    <option value="http://www.learningregistry.org/tos/cc-by-3-0/v0-5/">CC-BY-3.0</option>
+                    <option value="http://www.learningregistry.org/tos/pdm/v0-5/">PDM</option>
+                    <option value="http://www.learningregistry.org/tos/cc0/v0-5/">CC0</option>
+                    <option value="http://www.learningregistry.org/tos/pddl-1-0/v0-5/">PPDL</option>
+                </select>
+                <label for="tos_attribution">Attribution</label>
+                <input name="tos_attribution" id="tos_attribution" type="text">
+
+                <button id="submit_to_lr">Publish</button><span id="status_msg"></span>
+            </div>
+        </div>
+        
+
+        
+
+        
+    </div>
+    <div id="what-others-say" class="panel">
+        
+    </div>
+</div>
+</body>
+</html>
+
+<script type="text/x-mustache" id="jesco_list">
+    <h3>{{title}}</h3>
+    <ul>
+    {{#standards}}
+        {{>jesco_node}}
+    {{/standards}}
+    </ul>
+</script>
+
+<script type="text/x-mustache" id="jesco_node">
+    {{#text}}
+    <li {{#id}}id="{{id}}"{{/id}}><a href="#" >{{#asn_statementNotation}}<b class="dotNotation">{{#ccstd}}{{ccstd}}.{{/ccstd}}{{asn_statementNotation}}</b> {{/asn_statementNotation}}{{#asn_statementNotation}}<span class="statement">{{/asn_statementNotation}}{{{text}}}{{#asn_statementNotation}}</span>{{/asn_statementNotation}}</a>
+    <ul></ul>
+    </li>
+    {{/text}}
+</script>
+
+
+<script type="text/javascript">
+    
+    /*
+    {{#text}}
+    <li><a href="#">{{#asn_statementNotation}}<b class="dotNotation">{{#ccstd}}{{ccstd}}.{{/ccstd}}{{asn_statementNotation}}</b> {{/asn_statementNotation}}{{{text}}}</a>
+    <ul> 
+        {{^children}}
+            {{#dcterms_educationLevel}}
+                <li><a href="">{{prefLabel}}</a></li>
+            {{/dcterms_educationLevel}}
+        {{/children}}
+    </ul>
+    </li>
+    {{/text}}
+    */
+</script>
