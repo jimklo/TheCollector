@@ -233,7 +233,7 @@ require(['jquery', 'jquery-ui', 'jquery.rating', 'jquery.jstree', 'common', 'Mat
                 }
             }
             $("input.hover-star:checked").each(function(idx, e){
-                info.ratings[e.name] = e.value;
+                info.ratings[e.name] = parseInt(e.value);
             });
 
             var attribution = $("#tos_attribution").val();
