@@ -18,25 +18,24 @@ exports.isCollectorDoc = function(doc) {
 
 
 exports.getKeysForView = function(view, doc) {
-
-        sig_utils.check_signature(doc);
-        
         var activity = doc.resource_data.activity;
         var keys = [];
-        if (view === "discriminator-by-resource") {
-            var action = activity.verb.action;
-            if (action === "rated") {
-                for (var i=0; i<activity.related.length; i++) {
-                    var rubric = activity.related[i];
-                    keys.push([action, rubric.objectType, rubric.id, activity.verb.measure.value]);
+        if (sig_utils.check_signature(doc)) {
+            if (view === "discriminator-by-resource") {
+                var action = activity.verb.action;
+                if (action === "rated") {
+                    for (var i=0; i<activity.related.length; i++) {
+                        var rubric = activity.related[i];
+                        keys.push([action, rubric.objectType, rubric.id, activity.verb.measure.value]);
+                    }
+                } else if (action === "matched") {
+                    for (var i=0; i<activity.related.length; i++) {
+                        var std = activity.related[i];
+                        keys.push([action, std.objectType, std.id, std.description[0], std.description[1]]);
+                    }
                 }
-            } else if (action === "matched") {
-                for (var i=0; i<activity.related.length; i++) {
-                    var std = activity.related[i];
-                    keys.push([action, std.objectType, std.id, std.description[0], std.description[1]]);
-                }
+                
             }
-            
         }
 
         return keys;

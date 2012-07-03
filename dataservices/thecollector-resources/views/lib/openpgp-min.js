@@ -1,3 +1,47 @@
+// make check for navigator properties not fail.
+var navigator = navigator || {};
+
+
+// support some basic HTML5 localStorage operations
+function _localStorage() {
+
+    this.ls = {};
+
+    this.getItem = function(key) {
+        return this.ls[key] || null;
+    };
+
+    this.setItem = function(key, value) {
+        this.ls[key] = value;
+        return this;
+    }
+
+    return this;
+}
+var window = window || {};
+window.localStorage = window.localStorage || _localStorage();
+
+// support some minimal jquery need that's used for encoding messages for display in openpgp.js
+function jQuery(foo) {
+
+    this.text = function(txt) {
+        this._txt = txt;
+        return this;
+    }
+
+    this.html = function() {
+        return this._txt;
+    }
+
+    return this;
+}
+var $ = jQuery;
+
+// support undefined function in from openpgp.js
+function showMessages(text) {
+    // print(text);
+}
+
 function DSA(){this.select_hash_algorithm=function(b){var a=openpgp.config.config.prefer_hash_algorithm;switch(Math.round(b.bitLength()/8)){case 20:return 2!=a&&11<a&&10!=a&&8>a?2:a;case 28:return 11<a&&8>a?11:a;case 32:return 10<a&&8>a?8:a;default:return util.print_debug("DSA select hash algorithm: returning null for an unknown length of q"),null}};this.sign=function(b,a,c,d,e,f){b=util.getLeftNBits(openpgp_crypto_hashData(b,a),e.bitLength());b=new BigInteger(util.hexstrdump(b),16);a=openpgp_crypto_getRandomBigIntegerInRange(BigInteger.ONE.add(BigInteger.ONE),
 e.subtract(BigInteger.ONE));c=c.modPow(a,d).mod(e);e=a.modInverse(e).multiply(b.add(f.multiply(c))).mod(e);f=[];f[0]=c.toMPI();f[1]=e.toMPI();return f};this.verify=function(b,a,c,d,e,f,g,h){b=util.getLeftNBits(openpgp_crypto_hashData(b,d),f.bitLength());b=new BigInteger(util.hexstrdump(b),16);if(0<BigInteger.ZERO.compareTo(a)||0<a.compareTo(f)||0<BigInteger.ZERO.compareTo(c)||0<c.compareTo(f))return util.print_error("invalid DSA Signature"),null;c=c.modInverse(f);b=b.multiply(c).mod(f);a=a.multiply(c).mod(f);
 return g.modPow(b,e).multiply(h.modPow(a,e)).mod(e).mod(f)}}

@@ -20,10 +20,12 @@ exports.views = {
                 }   
             
             } catch (error) {
-                    // log("error:"+error);
+
+                log("error:"+error);
             }
         }
-    },
+    }
+    ,
     "discriminator-by-resource-ts": {
         "map": function(doc) {
             var collector = require('views/lib/collector');
@@ -39,7 +41,6 @@ exports.views = {
                 }   
             
             } catch (error) {
-
                     log("error:"+error);
                     throw error;
             }
