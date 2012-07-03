@@ -7,6 +7,8 @@ define(function(){
         }
         if (bio.twitter)
             actor.id = bio.twitter;
+            actor.objectType = "twitter";
+            
         return actor;
     }
 
