@@ -1,0 +1,12 @@
+{
+    "name": "thecollector-resources",
+    "version": "0.0.1",
+    "description": "Data Service for locating resources submitted by TheCollector",
+    "modules":["lib","views"],
+    "attachments": [],
+    "load": "lib/app",
+    "dependencies": {
+        "modules": null,
+        "properties": null
+    }
+}
