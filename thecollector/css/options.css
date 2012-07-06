@@ -10,6 +10,36 @@ div.hero {
     color: #6C6C6C;
 }
 
+.sign_in_with_twitter {
+      background: white url(../images/sign-in-with-twitter_0.png) no-repeat top;
+      width: 450px;
+      height: 72px;
+      color:white;
+}
+
+.avatar {
+    float: left;
+    padding: 4px;
+}
+
+.twitter_profile {
+    font-size: 10pt;
+}
+
+.clear {
+    display: block;
+}
+
+.clear::after {
+    content: ".";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0;
+}
+
+
 label {
     font: 14pt "Impact", Verdana, sans-serif;;
     color: #6C6C6C;

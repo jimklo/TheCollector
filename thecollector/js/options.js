@@ -1,5 +1,7 @@
 
-require(['jquery', 'jquery-ui-1.8.21.custom.min'], function($) {
+require(['common', 'jquery', 'jquery-ui-1.8.21.custom.min'], function(common, $) {
+    var common = require('common');
+    var bgPage = chrome.extension.getBackgroundPage();
 
     // Saves options to localStorage.
     function save_oauth() {
@@ -42,6 +44,23 @@ require(['jquery', 'jquery-ui-1.8.21.custom.min'], function($) {
         }, 750);
     }
 
+    function authorize_twitter() {
+        if (bgPage.twitter.hasUserInfo()) {
+            restore_twitter();
+        } else {
+            bgPage.oauth.authorize(function(token, token_secret) {
+                bgPage.twitter.fetchUserInfo(function(){
+                    restore_twitter();   
+                });
+            });
+        }
+    }
+
+    function deauthorize_twitter() {
+        bgPage.logout();
+        restore_twitter();
+    }
+
     // Restores select box state to saved value from localStorage.
     function restore_oauth() {
         var options = JSON.parse(localStorage["oauth"]);
@@ -69,11 +88,38 @@ require(['jquery', 'jquery-ui-1.8.21.custom.min'], function($) {
         $('#twitter').val(bio.twitter || "");
     }
 
+    function restore_twitter() {
+        function setTwitter(someTwit) {
+            common.render("twitter_user", someTwit, function(html){
+                $('#twitter_info').html(html);
+                $('#twitter_info').show();
+            }); 
+        }
+
+        if (bgPage.twitter.hasUserInfo()) {
+            $('.sign_in_with_twitter').hide();
+            $(".sign_off_with_twitter").show();
+            var twit = bgPage.twitter.getUserInfo();
+            setTwitter(twit);     
+        } else {
+            $('.sign_in_with_twitter').show();
+            $(".sign_off_with_twitter").hide();
+            setTwitter({});
+        }
+    }
+
+
+
+
     $(function(){
         $("#tabs").tabs();
         $(".save_oauth").bind('click', save_oauth);
         $(".save_bio").bind('click', save_bio);
+        $(".sign_in_with_twitter").bind('click', authorize_twitter);
+        $(".sign_off_with_twitter").bind('click', deauthorize_twitter);
+
         restore_oauth();
         restore_bio();
+        restore_twitter();
     });
 });

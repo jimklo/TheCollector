@@ -12,31 +12,15 @@
 <div id="status"></div>
 <div id="tabs" class="tabs">
     <ul>
-        <li><a href="#tabs-oauth">OAuth Configuration</a></li>
         <li><a href="#tabs-about-you">About You</a></li>
+        <li><a href="#tabs-oauth">OAuth Configuration</a></li>
     </ul>
-    <div id="tabs-oauth">
-        <label for="node_url">Node URL</label>
-        <input type="text" id="node_url">
 
-        <label for="consumer_key">Consumer Key</label>
-        <input type="text" id="consumer_key">
-
-        <label for="consumer_secret">Consumer Secret</label>
-        <input type="text" id="consumer_secret">
-
-        <label for="token">Token</label>
-        <input type="text" id="token">
-
-        <label for="token_secret">Token Secret</label>
-        <input type="text" id="token_secret">
-
-        <button class="save_oauth">Save</button>
-
-    </div>
     <div id="tabs-about-you">
         <label for="twitter">Twitter</label>
-        <input type="text" id="twitter">
+        <button class="sign_in_with_twitter"></button>
+        <div id="twitter_info"></div>
+        <button class="sign_off_with_twitter" style='display:none;'>Sign off with Twitter</button>
 
         <label for="occupation">Occupation</label>
         <select name="occupation" id="occupation">
@@ -90,6 +74,38 @@
 
         <button class="save_bio">Save</button>
     </div>
+    <div id="tabs-oauth">
+        <label for="node_url">Node URL</label>
+        <input type="text" id="node_url">
+
+        <label for="consumer_key">Consumer Key</label>
+        <input type="text" id="consumer_key">
+
+        <label for="consumer_secret">Consumer Secret</label>
+        <input type="text" id="consumer_secret">
+
+        <label for="token">Token</label>
+        <input type="text" id="token">
+
+        <label for="token_secret">Token Secret</label>
+        <input type="text" id="token_secret">
+
+        <button class="save_oauth">Save</button>
+
+    </div>
 </div>
 </body>
 </html>
+
+<script type="text/x-mustache" id="twitter_user">
+    {{#screen_name}}
+    <div class="twitter_profile clear">
+        <img src="{{profile_image_url_https}}" class="avatar"/>
+        <div class="avatar_info">
+            <strong>{{name}}</strong> - @{{screen_name}}<br/>
+            {{description}}
+        </div>
+    </div>
+    {{/screen_name}}
+    <input type="hidden" id="twitter" value="{{screen_name}}">
+</script>
