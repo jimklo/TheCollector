@@ -322,7 +322,10 @@
 
 <script type="text/x-mustache" id="jesco_node">
     {{#text}}
-    <li {{#id}}id="{{id}}"{{/id}}><a href="#" >{{#asn_statementNotation}}<b class="dotNotation">{{#ccstd}}{{ccstd}}.{{/ccstd}}{{asn_statementNotation}}</b> {{/asn_statementNotation}}{{#asn_statementNotation}}<span class="statement">{{/asn_statementNotation}}{{{text}}}{{#asn_statementNotation}}</span>{{/asn_statementNotation}}</a>
+    <li {{#id}}id="{{id}}"{{/id}}><a href="#" >
+        {{#asn_statementNotation}}<b class="dotNotation">{{#ccstd}}{{ccstd}}.{{/ccstd}}{{asn_statementNotation}}</b><br/><span class="statement">{{#denumeral}}{{{text}}}{{/denumeral}}</span>{{/asn_statementNotation}}
+        {{^asn_statementNotation}}{{{text}}}{{/asn_statementNotation}}
+    </a>
     <ul></ul>
     </li>
     {{/text}}

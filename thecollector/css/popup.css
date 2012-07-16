@@ -22,9 +22,9 @@ div.rubric {
 }
 
 .treeview {
-    width: 444px;
+    max-width: 440px;
 /*    max-height:350px;*/
-    overflow: auto;
+/*    overflow: auto;*/
 }
 
 .hidden {
@@ -67,3 +67,9 @@ div.rubric {
 label {
     font: 12pt "Impact", Verdana, sans-serif;
 }
+
+.treeview.jstree a { white-space:normal !important; height: auto; padding:1px 2px; }
+
+.treeview.jstree  li > ins { vertical-align:top; }
+
+.treeview.jstree  .jstree-hovered, .treeview .jstree .jstree-clicked { border:0; }

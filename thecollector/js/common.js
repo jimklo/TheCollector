@@ -37,6 +37,14 @@ var mt_script = function() {
     }
 }
 
+var mt_denumeral = function() {
+    return function(text, render){
+        var r = render(text);
+        var l = r.replace(/^[0-9]+.\s+/, '');
+        return l;
+    }
+}
+
 var doMustache = function (id, data, callback) {
     var template = $('#'+id).html()
 
@@ -56,7 +64,10 @@ var doMustache = function (id, data, callback) {
         data.script = mt_script;
     }
 
-    console.log(template);
+    if (!data.denumeral) {
+        data.denumeral = mt_denumeral;
+    }
+
     var html = Mustache.to_html(template, data);
     callback(html);
 }
@@ -85,7 +96,10 @@ var doMustachePartials = function (id, partials, data, callback) {
         data.script = mt_script;
     }
     
-    console.log(template);
+    if (!data.denumeral) {
+        data.denumeral = mt_denumeral;
+    }
+
     var html = Mustache.to_html(template, data, partial_map);
     callback(html);
 }
