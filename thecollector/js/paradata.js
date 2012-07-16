@@ -1,4 +1,6 @@
-define(function(){
+define(["underscore"],function(){
+
+    var _ = require('underscore');
 
     function getActor(bio) {
         var actor = {
@@ -62,18 +64,24 @@ define(function(){
         getLRParadataForStandard: function(info, bio) {
             var d = new Date();
 
-            var paradata = {
-                activity: {
-                    actor: getActor(bio),
-                    verb: getMatchedVerb(info, d),
-                    object: getObject(info),
-                    related: [
-                        getRelatedStandard(info.standard)
-                    ]
-                }
-            };
+            
 
-            return paradata;
+            var paradata_list = [];
+            _.each(info.standards, function(std, index, list) {
+                var paradata = {
+                    activity: {
+                        actor: getActor(bio),
+                        verb: getMatchedVerb(info, d),
+                        object: getObject(info),
+                        related: []
+                    }
+                };
+
+                paradata.activity.related = [ getRelatedStandard(std) ];
+                paradata_list.push(paradata);
+            });
+
+            return paradata_list;
         },
 
         getLRParadataForRubric: function (info, bio, rubric) {

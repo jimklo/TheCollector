@@ -5,7 +5,7 @@ define(['require', 'common', 'sha1', 'oauth', 'jquery', 'underscore', 'couch', '
     function getLREnvelope(info, oauth_data, bio, resource) {
 
         var username = null;
-        console.log(oauth_data);
+        // console.log(oauth_data);
         var req_info = getOAuthInfo(oauth_data);
         xhr = oauthRequest("GET", oauth_data.node_url + '/_session', req_info.message, req_info.accessor);
         xhr.done(function(msg){
@@ -129,16 +129,19 @@ define(['require', 'common', 'sha1', 'oauth', 'jquery', 'underscore', 'couch', '
             var oauth_data = common.fetchJSON('oauth');
 
             var envelopes = [];
+
             // Standards Alignment
-            var paradata = paradata_util.getLRParadataForStandard(info, bio);
-            envelopes.push(getLREnvelope(info, oauth_data, bio, paradata));
+            var paradata_list = paradata_util.getLRParadataForStandard(info, bio);
+            _.each(paradata_list, function(paradata) {
+                envelopes.push(getLREnvelope(info, oauth_data, bio, paradata));            
+            });
 
             // Rubric Ratings
-            for (rubric in info.ratings) {
-                info.rating = info.ratings[rubric];
-                paradata = paradata_util.getLRParadataForRubric(info, bio, rubric_util[rubric]);
+            _.each(info.ratings, function(rubric, rubric_key) {
+                info.rating = rubric;
+                paradata = paradata_util.getLRParadataForRubric(info, bio, rubric_util[rubric_key]);
                 envelopes.push(getLREnvelope(info, oauth_data, bio, paradata)); 
-            }
+            });
 
             return postEnvelopes(oauth_data, envelopes);
         }

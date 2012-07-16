@@ -117,7 +117,7 @@ require(['jquery', 'jquery-ui', 'jquery.rating', 'jquery.jstree', 'common', 'Mat
                                 $(".accordion").accordion("resize");
                             })
                             .jstree({
-                            "plugins":['themes', 'html_data', 'ui'],
+                            "plugins":['themes', 'html_data', 'ui', 'checkbox'],
                             "themes" : {
                                 "theme" : "classic",
                                 "dots" : true,
@@ -146,6 +146,65 @@ require(['jquery', 'jquery-ui', 'jquery.rating', 'jquery.jstree', 'common', 'Mat
         
     }
 
+    function fetchStandards(selected, data, ccstd, format) {
+        var standards=[];
+        
+        var traverse = function(tree, ccstd) {
+            if (common.isArray(tree)) {
+                for (var i = 0; i < tree.length; i++) {
+                    traverse(tree[i], ccstd);
+                }
+            } else {
+                var trimmed = {};
+                if (tree.leaf) {
+                    trimmed.leaf = tree.leaf;
+                } else {
+                    trimmed.leaf = false;
+                }
+                if (tree.asn_statementNotation) {
+                    trimmed.ccstd = ccstd;
+                    trimmed.asn_statementNotation = tree.asn_statementNotation;
+                }
+                if (tree.text) {
+                    trimmed.text = $("<div/>").html(tree.text).text();
+                }
+                if (tree.children) {
+                    traverse(tree.children, ccstd);
+                } else {
+                    if (tree.dcterms_educationLevel) {
+                        trimmed.dcterms_educationLevel = [];
+                        if (common.isArray(tree.dcterms_educationLevel)) {
+                            for (var i = 0; i < tree.dcterms_educationLevel.length; i++) {
+                                trimmed.dcterms_educationLevel[i] = {
+                                    prefLabel: tree.dcterms_educationLevel[i].prefLabel
+                                };
+                            }
+                        } else {
+                            trimmed.dcterms_educationLevel[0] = {
+                                prefLabel: tree.dcterms_educationLevel.prefLabel
+                            }
+
+                        }
+                    }
+
+                    if (tree.id && selected[tree.id]) {
+                        trimmed.id = tree.id;
+
+                        if (format) {
+                            standards.push(format(trimmed));
+                        } else {
+                            standards.push(trimmed);
+                        }
+                    }
+
+                }
+            }
+        }
+
+        traverse(data, ccstd);
+        return standards;
+    }
+
     var stds_cache = {};
     function getStd(name) {
         if (!stds_cache[name]) {
@@ -154,13 +213,16 @@ require(['jquery', 'jquery-ui', 'jquery.rating', 'jquery.jstree', 'common', 'Mat
         return stds_cache[name];
     }
 
-
+    var cur_std = null;
+    var cur_ccstd = null;
     $('input[name="standardselector"]').bind("change", function(evt) {
         var selected = $(evt.target).val();
         var text = $('label[for="'+selected+'"]').text();
         if (selected) {
+            cur_ccstd = selected;
             var big_std = getStd(selected);
             var std = trimTree(big_std, $('#grade-level').val(), selected);
+            cur_std = big_std;
             numStds = std.length;
             $('label[for="category-browser"]').text(text);
             $("#category-browser").html('<ul id="category-browser-list"></ul>');
@@ -169,6 +231,7 @@ require(['jquery', 'jquery-ui', 'jquery.rating', 'jquery.jstree', 'common', 'Mat
             $("#grade-level").bind('change', function(evt) {
                 var grade = $("#grade-level").val();
                 var std = trimTree(big_std, grade, selected);
+                cur_std = big_std;
                 numStds = std.length;
                 $("#category-browser").html('<ul id="category-browser-list"></ul>');
                 jesco_tree(std, null)
@@ -207,31 +270,45 @@ require(['jquery', 'jquery-ui', 'jquery.rating', 'jquery.jstree', 'common', 'Mat
         }
     });
 
-    $(".accordion").accordion({ icons: false, clearStyle: true });
+    $(".accordion").accordion({ icons: false, clearStyle: true, autoHeight: false });
 
     var lr = require("lr");
 
+
     $("#submit_to_lr").bind('click', function (evt) {
-        if ($("#asn_dot_notation").val() &&
-            $("#asn_text").val() &&
-            $("#asn_url").val() &&
+        var checkedStandards = $('#category-browser').jstree('get_checked').find('.jstree-leaf[id]');
+
+        if (checkedStandards.length > 0 &&
             $("#tos").val() &&
             $("input.hover-star:checked").length == 6) {
 
             var info = {
                 resource_title: $("#tab_title").text(),
                 resource_url: $("#tab_uri").text(),
-                standard: {
-                    dot_notation: $("#asn_dot_notation").val(),
-                    text: $("#asn_text").val(),
-                    url: $("#asn_url").val(),
-                    grade_level: $("#grade-level").val()
-                },
+                standards: { },
                 ratings: { },
                 tos: {
                     submission_TOS: $("#tos").val()
                 }
             }
+
+            var standards = {};
+            $.map(checkedStandards, function(val, i){
+                var asn_url = val.id;
+                if (!!asn_url) {
+                    standards[asn_url] = 1;
+                }
+            });
+
+            info.standards = fetchStandards(standards, cur_std, cur_ccstd, function (std) {
+                return {
+                    dot_notation: std.ccstd + "." + std.asn_statementNotation,
+                    text: std.text,
+                    url: std.id,
+                    grade_level: std.dcterms_educationLevel
+                }
+            });
+
             $("input.hover-star:checked").each(function(idx, e){
                 info.ratings[e.name] = parseInt(e.value);
             });
@@ -257,10 +334,10 @@ require(['jquery', 'jquery-ui', 'jquery.rating', 'jquery.jstree', 'common', 'Mat
             console.log(info);
 
         } else {
-            console.log($("#asn_dot_notation").val());
-            console.log($("#asn_text").val());
-            console.log($("#asn_url").val());
-            console.log($("input.hover-star:checked"));
+            // console.log($("#asn_dot_notation").val());
+            // console.log($("#asn_text").val());
+            // console.log($("#asn_url").val());
+            // console.log($("input.hover-star:checked"));
         }
 
     });
