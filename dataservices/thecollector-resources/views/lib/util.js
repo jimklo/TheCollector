@@ -152,7 +152,7 @@ exports.init = function(){
 
     }
 
-    var _ = require("underscore")._;
+    var _ = require("views/lib/underscore-min")._;
 
     this.GroupIt = function(level, groups, row) {
         var row_group = _.first(row.key, level);

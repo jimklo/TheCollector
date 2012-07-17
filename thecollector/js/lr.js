@@ -137,8 +137,8 @@ define(['require', 'common', 'sha1', 'oauth', 'jquery', 'underscore', 'couch', '
             });
 
             // Rubric Ratings
-            _.each(info.ratings, function(rubric, rubric_key) {
-                info.rating = rubric;
+            _.each(info.ratings, function(rubric_rating, rubric_key) {
+                info.rating = rubric_rating;
                 paradata = paradata_util.getLRParadataForRubric(info, bio, rubric_util[rubric_key]);
                 envelopes.push(getLREnvelope(info, oauth_data, bio, paradata)); 
             });
