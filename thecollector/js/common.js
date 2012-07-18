@@ -1,4 +1,4 @@
-define(["require", "mustache"], function(require) {
+define(["require", "jquery", "mustache"], function(require, $) {
 
 var mustache = require('mustache');
 
@@ -117,12 +117,34 @@ var isArray= function(obj) {
 }
 
 
+var ajax = function(method, url, options) {
+        var settings = {
+            type: method,
+            contentType: "application/json",
+            dataType: "json"
+        }
+        if (options) {
+            settings = _.extend(settings, options);
+        }
+        var request = $.ajax(url, settings);
+        request.done(function(msg){
+            console.log("Done");
+            console.log(msg);
+        });
+        request.fail(function(msg){
+            console.log("Fail");
+            console.log(msg);
+        });
+        return request;
+    }
+
 return {
     render: doMustache,
     renderPartials: doMustachePartials,
     fetchJSON: fetchJSON,
     putJSON: putJSON,
-    isArray: isArray
+    isArray: isArray,
+    ajax: ajax
 };
 
 });

@@ -1,5 +1,7 @@
 
 var sig_utils = require("views/lib/sig_utils");
+var moment = require("views/lib/moment-min");
+
 
 exports.isCollectorDoc = function(doc) {
         var isLRParadata = false,
@@ -49,7 +51,8 @@ exports.getTimestampForDoc = function(doc) {
         log(JSON.stringify(activity.verb.date));
         isots = activity.verb.date;
     }
-    return Math.floor(Date.parse(isots)/1000);
+    return moment(isots).sod().unix();
+    //// return Math.floor(Date.parse(isots)/1000);
 }
 
 exports.searchObjectForPattern = function(obj, regex) {

@@ -1,4 +1,15 @@
-require(["jquery", "twitter-oauth"], function($, TwitterOAuth) {
+require.config(
+    {
+        paths: {
+            'underscore': 'underscore-min',
+            'jquery-ui': 'jquery-ui-1.8.21.custom.min',
+            'jquery.rating': 'jquery.rating.pack',
+            'moment': 'moment.min',
+            'Math': 'mcc',
+            'Literacy': 'ecc'
+        }
+    });
+require(["jquery", "twitter-oauth", "social"], function($, TwitterOAuth, social) {
 
     var oauth = TwitterOAuth.initBackgroundPage({
         'request_url': 'https://api.twitter.com/oauth/request_token',
@@ -43,7 +54,7 @@ require(["jquery", "twitter-oauth"], function($, TwitterOAuth) {
         return false;
     }
 
-    function setIcon(opt_badgeObj) {
+    function setBadgeText(opt_badgeObj) {
         if (opt_badgeObj) {
             var badgeOpts = {};
             if (opt_badgeObj && opt_badgeObj.text != undefined) {
@@ -56,9 +67,21 @@ require(["jquery", "twitter-oauth"], function($, TwitterOAuth) {
         }
     };
 
+    function setBadgeColor(opt_badgeObj) {
+        if (opt_badgeObj) {
+            var badgeOpts = {};
+            if (opt_badgeObj && opt_badgeObj.color != undefined) {
+                badgeOpts['color'] = opt_badgeObj.color;
+            }
+            if (opt_badgeObj && opt_badgeObj.tabId) {
+                badgeOpts['tabId'] = opt_badgeObj.tabId;
+            }
+            chrome.browserAction.setBadgeColor(badgeOpts);
+        }
+    };
+
 
     function logout(callback) {
-        // setIcon({'text': ''});
         oauth.clearTokens();
         delete localStorage['twitter'];
         if (callback) {
@@ -66,10 +89,23 @@ require(["jquery", "twitter-oauth"], function($, TwitterOAuth) {
         }
     };
 
+    chrome.extension.onRequest.addListener(
+        function(request, sender, sendResponse) {
+            if (request.action === "updateBadge") {
+                var xhr = social.getDiscriminatorsSince(sender.tab.url, new Date());
+                xhr.done(function(data_service) {
+                    if (data_service.documents && data_service.documents.length > 0){
+                        setBadgeText({'text': "!", 'tabId': sender.tab.id });
+                    } else {
+                        setBadgeText({'text': "", 'tabId': sender.tab.id });
+                    }
+                });
+            }
+        });
 
     window.twitter = twitter;
     window.oauth = oauth;
-    window.setIcon = setIcon;
+    window.setBadgeText = setBadgeText;
     window.logout = logout;
 
 });

@@ -55,26 +55,26 @@ define(['require', 'common', 'sha1', 'oauth', 'jquery', 'underscore', 'couch', '
         };
     }
 
-    function ajax(method, url, options) {
-        var settings = {
-            type: method,
-            contentType: "application/json",
-            dataType: "json"
-        }
-        if (options) {
-            settings = _.extend(settings, options);
-        }
-        var request = $.ajax(url, settings);
-        request.done(function(msg){
-            console.log("Done");
-            console.log(msg);
-        });
-        request.fail(function(msg){
-            console.log("Fail");
-            console.log(msg);
-        });
-        return request;
-    }
+    // function ajax(method, url, options) {
+    //     var settings = {
+    //         type: method,
+    //         contentType: "application/json",
+    //         dataType: "json"
+    //     }
+    //     if (options) {
+    //         settings = _.extend(settings, options);
+    //     }
+    //     var request = $.ajax(url, settings);
+    //     request.done(function(msg){
+    //         console.log("Done");
+    //         console.log(msg);
+    //     });
+    //     request.fail(function(msg){
+    //         console.log("Fail");
+    //         console.log(msg);
+    //     });
+    //     return request;
+    // }
 
     function oauthRequest(method, path, message, accessor, undefined) {
         message.action = path;
@@ -83,10 +83,10 @@ define(['require', 'common', 'sha1', 'oauth', 'jquery', 'underscore', 'couch', '
         var parameters = message.parameters;
         if (method == "POST" || method == "GET") {
             if (method == "GET") {
-                return ajax("GET", OAuth.addToURL(path, parameters));
+                return common.ajax("GET", OAuth.addToURL(path, parameters));
                 // return CouchDB.request("GET", OAuth.addToURL(path, parameters));
             } else if (method == "POST" && message.body !== undefined) {
-                return ajax(method, path, {
+                return common.ajax(method, path, {
                     headers: {
                             Authorization: OAuth.getAuthorizationHeader('', parameters)
                     },
@@ -94,7 +94,7 @@ define(['require', 'common', 'sha1', 'oauth', 'jquery', 'underscore', 'couch', '
                 });
             } else {
                 console.log(OAuth.formEncode(parameters))
-                return ajax("POST", path, {
+                return common.ajax("POST", path, {
                     contentType: "application/x-www-form-urlencoded",
                     headers: {
                         Accept: "application/json"

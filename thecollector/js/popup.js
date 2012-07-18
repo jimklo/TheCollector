@@ -4,13 +4,16 @@ require.config(
             'underscore': 'underscore-min',
             'jquery-ui': 'jquery-ui-1.8.21.custom.min',
             'jquery.rating': 'jquery.rating.pack',
+            'moment': 'moment.min',
             'Math': 'mcc',
             'Literacy': 'ecc'
         }
     });
-require(['jquery', 'jquery-ui', 'jquery.rating', 'jquery.jstree', 'common', 'Math', 'Literacy', 'lr'], function($) {
+require(['jquery', 'jquery-ui', 'jquery.rating', 'jquery.jstree', 'common', 'Math', 'Literacy', 'lr', 'social'], function($) {
 
     var common = require('common');
+
+    window.social = require('social');
 
 
     $("#tabs").tabs();
