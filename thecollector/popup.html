@@ -5,6 +5,7 @@
     <link type="text/css" href="css/start/jquery-ui-1.8.21.custom.css" rel="Stylesheet" />  
     <link rel="stylesheet" href="css/jquery.rating.css">
     <link rel="stylesheet" href="css/popup.css">
+    <script type="text/javascript" src="js/raphael-min.js"></script>
     <script type="text/javascript" src="js/require-jquery.js" data-main="js/popup.js"></script>
 </head>
 <body>
@@ -15,12 +16,12 @@
         <li><a href="#what-others-say">What Others are Saying</a></li>
     </ul>
     <div id="rate-it" class="panel">
-        <label for="tab_title">Resource</label>
+        <label for="tab_title">Learning Resource</label>
         <div id="tab_title" class="small_text"></div>
         <div id="tab_uri" class="small_text"></div>
 
         <div class="accordion">
-            <h3><a href="#">Align to Common Core Standards</a></h3>
+            <h3><a href="#">Match to Common Core Standards</a></h3>
             <div>
                 <label for="standardselector">Common Core Standard</label>
                 <div class="radio Clear">
@@ -298,18 +299,49 @@
                 <button id="submit_to_lr">Publish</button><span id="status_msg"></span>
             </div>
         </div>
-        
-
-        
-
-        
     </div>
     <div id="what-others-say" class="panel">
-        
+        <div class="socialstds"></div>
+        <div class="socialrubric"></div>
     </div>
 </div>
 </body>
 </html>
+
+<script type="text/x-mustache" id="must_social_stds">
+
+    <div class="matched_stds other Clear">
+        <h4>Community Matched Standards</h4>
+        <table>  
+            <tbody>
+            {{#standards}}
+                <tr><th scope="row">{{name}}</th><td>{{count}}</td>
+            {{/standards}}
+            </tbody>
+        </table>
+    </div>
+    
+
+</script>
+
+<script type="text/x-mustache" id="must_social_rubrics">
+{{#rubrics}}
+    <div class="rubric_chart other Clear">
+        <h4>{{#rtitle}}{{name}}{{/rtitle}}</h4>
+        <table class="piedata">
+            <tbody>
+            {{#ratings}}  
+            <tr>
+                <th scope="row">{{name}}</th>
+                <td>{{count}}</td>
+            </tr>
+            {{/ratings}}
+            </tbody>
+        </table>
+        <div class="pie"></div>
+    </div>
+{{/rubrics}}
+</script>
 
 <script type="text/x-mustache" id="jesco_list">
     <h3>{{title}}</h3>

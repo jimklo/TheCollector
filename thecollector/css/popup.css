@@ -7,6 +7,11 @@ div.rubric {
     margin-bottom: 50px;
 }
 
+span.statement {
+    display: block;
+    margin-left: 21px;
+}
+
 .rating_desc {
     font-weight: bold;
     margin-left: 10px;
@@ -55,6 +60,10 @@ div.rubric {
     height: 34px;
 }
 
+.other table {
+    font-size: 10pt;
+}
+
 .Clear::after {
     content: ".";
     display: block;
@@ -64,7 +73,7 @@ div.rubric {
     height: 0;
 }
 
-label {
+label, h4 {
     font: 12pt "Impact", Verdana, sans-serif;
 }
 
@@ -73,3 +82,15 @@ label {
 .treeview.jstree  li > ins { vertical-align:top; }
 
 .treeview.jstree  .jstree-hovered, .treeview .jstree .jstree-clicked { border:0; }
+
+div.pie {
+    height: 150px;
+    width: 150px;
+    float: right;
+}
+
+table.piedata {
+    float: left;
+    background-color: white;
+    border-color: white;
+}

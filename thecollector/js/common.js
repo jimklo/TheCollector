@@ -45,9 +45,15 @@ var mt_denumeral = function() {
     }
 }
 
-var doMustache = function (id, data, callback) {
-    var template = $('#'+id).html()
+var mt_classify = function() {
+    return function(text, render) {
+        var r = render(text);
+        var l = r.replace(/[\s\.-+&]+/, '_');
+        return l;
+    }
+}
 
+var addMustacheWax = function(data) {
     if (!data.capitaled) {
         data.capitaled = mt_capitalED;
     }
@@ -67,6 +73,18 @@ var doMustache = function (id, data, callback) {
     if (!data.denumeral) {
         data.denumeral = mt_denumeral;
     }
+
+    if (!data.classify) {
+        data.classify = mt_classify;
+    }
+
+    return data;
+}
+
+var doMustache = function (id, data, callback) {
+    var template = $('#'+id).html()
+
+    data = addMustacheWax(data);
 
     var html = Mustache.to_html(template, data);
     callback(html);
@@ -80,25 +98,7 @@ var doMustachePartials = function (id, partials, data, callback) {
         partial_map[partials[partial_id]] = $('#'+partials[partial_id]).html();
     }
 
-    if (!data.capitaled) {
-        data.capitaled = mt_capitalED;
-    }
-
-    if (!data.cap) {
-        data.cap = mt_cap;
-    }
-
-    if (!data.linkify) {
-        data.linkify = mt_linkify;
-    }
-
-    if (!data.script) {
-        data.script = mt_script;
-    }
-    
-    if (!data.denumeral) {
-        data.denumeral = mt_denumeral;
-    }
+    data = addMustacheWax(data);
 
     var html = Mustache.to_html(template, data, partial_map);
     callback(html);

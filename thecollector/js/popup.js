@@ -6,15 +6,14 @@ require.config(
             'jquery.rating': 'jquery.rating.pack',
             'moment': 'moment.min',
             'Math': 'mcc',
-            'Literacy': 'ecc'
+            'Literacy': 'ecc',
+            'raphael': 'raphael-min'
         }
     });
-require(['jquery', 'jquery-ui', 'jquery.rating', 'jquery.jstree', 'common', 'Math', 'Literacy', 'lr', 'social'], function($) {
+require(['jquery', 'jquery-ui', 'jquery.rating', 'jquery.jstree', 'common', 'Math', 'Literacy', 'lr', 'social', 'others-say'], function($) {
 
     var common = require('common');
-
-    window.social = require('social');
-
+    var others = require("others-say");
 
     $("#tabs").tabs();
 
@@ -22,8 +21,12 @@ require(['jquery', 'jquery-ui', 'jquery.rating', 'jquery.jstree', 'common', 'Mat
 
 
     chrome.tabs.getSelected(null, function(curtab) {
+        if (curtab.url === curtab.title) {
+            $("#tab_title").hide();
+        }
         $("#tab_uri").text(curtab.url);
         $("#tab_title").text(curtab.title);
+        others.setWhatOthersSay(curtab.url);
     });
 
     var trimTree = function (tree, grade, ccstd) {
@@ -348,5 +351,7 @@ require(['jquery', 'jquery-ui', 'jquery.rating', 'jquery.jstree', 'common', 'Mat
     var bio = common.fetchJSON("bio");
     $("#tos").val(bio.tos || "");
     $("#tos_attribution").val(bio.tos_attribution);
+
+
 
 });
