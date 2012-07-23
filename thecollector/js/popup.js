@@ -1,13 +1,17 @@
 require.config(
     {
         paths: {
-            'underscore': 'underscore-min',
-            'jquery-ui': 'jquery-ui-1.8.21.custom.min',
-            'jquery.rating': 'jquery.rating.pack',
-            'moment': 'moment.min',
+            'jquery-ui': 'libs/jquery-ui-1.8.21.custom.min',
+            'jquery.jstree': 'libs/jquery.jstree',
+            'jquery.rating': 'libs/jquery.rating.pack',
+            'moment': 'libs/moment.min',
+            'mustache': 'libs/mustache',
+            'oauth-simple': 'libs/oauth-simple',
+            'oauth': 'libs/oauth',
+            'sha1': 'libs/sha1',
+            'underscore': 'libs/underscore-min',
             'Math': 'mcc',
-            'Literacy': 'ecc',
-            'raphael': 'raphael-min'
+            'Literacy': 'ecc'
         }
     });
 require(['jquery', 'jquery-ui', 'jquery.rating', 'jquery.jstree', 'common', 'Math', 'Literacy', 'lr', 'social', 'others-say'], function($) {

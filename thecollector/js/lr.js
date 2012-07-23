@@ -1,4 +1,4 @@
-define(['require', 'common', 'sha1', 'oauth', 'jquery', 'underscore', 'couch', 'rubric', 'paradata'], function(require, common, sha1, oauth, $) {
+define(['require', 'common', 'sha1', 'oauth', 'jquery', 'underscore', 'rubric', 'paradata'], function(require, common, sha1, oauth, $) {
 
     var _ = require('underscore');
 
