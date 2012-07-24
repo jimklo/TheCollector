@@ -14,10 +14,11 @@ require.config(
             'Literacy': 'ecc'
         }
     });
-require(['jquery', 'jquery-ui', 'jquery.rating', 'jquery.jstree', 'common', 'Math', 'Literacy', 'lr', 'social', 'others-say'], function($) {
+require(['jquery', 'jquery-ui', 'jquery.rating', 'jquery.jstree', 'common', 'Math', 'Literacy', 'lr', 'social', 'others-say', 'state-stds'], function($) {
 
     var common = require('common');
     var others = require("others-say");
+    var state_stds = require('state-stds');
 
     $("#tabs").tabs();
 
@@ -31,6 +32,30 @@ require(['jquery', 'jquery-ui', 'jquery.rating', 'jquery.jstree', 'common', 'Mat
         $("#tab_uri").text(curtab.url);
         $("#tab_title").text(curtab.title);
         others.setWhatOthersSay(curtab.url);
+    });
+
+    state_stds.init('jurisdiction','state_std', function(stds){
+        var big_std = stds,
+            grade = $('#grade-level').val(),
+            text = $('#state_std :selected').html(),
+            std = trimTree(big_std, grade, null);
+
+        cur_std = std;
+        numStds = std.length;
+        $('label[for="category-browser"]').text(text);
+        $("#category-browser").html('<ul id="category-browser-list"></ul>');
+        jesco_tree(stds, null);
+        $("#grade-level").unbind('change');
+        $("#grade-level").bind('change', function(evt) {
+            var grade = $("#grade-level").val();
+            var std = trimTree(big_std, grade, null);
+            cur_std = big_std;
+            numStds = std.length;
+            $("#category-browser").html('<ul id="category-browser-list"></ul>');
+            jesco_tree(std, null)
+        });
+        $("div.standards").show(500, function(){ $(".accordion").accordion("resize"); });
+
     });
 
     var trimTree = function (tree, grade, ccstd) {
@@ -55,7 +80,8 @@ require(['jquery', 'jquery-ui', 'jquery.rating', 'jquery.jstree', 'common', 'Mat
                 trimmed.leaf = false;
             }
             if (tree.asn_statementNotation) {
-                trimmed.ccstd = ccstd;
+                if (!!ccstd)
+                    trimmed.ccstd = ccstd;
                 trimmed.asn_statementNotation = tree.asn_statementNotation;
             }
             if (tree.text) {

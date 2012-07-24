@@ -12,6 +12,10 @@ span.statement {
     margin-left: 21px;
 }
 
+.state_stds select {
+    width: 458px;
+}
+
 .rating_desc {
     font-weight: bold;
     margin-left: 10px;
