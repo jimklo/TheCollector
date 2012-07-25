@@ -31,6 +31,7 @@ define(['jquery', 'underscore', 'common'], function($, _, common){
                 sid = $("#"+s_id);
 
             sid.empty();
+            $("<option/>").appendTo(sid);
             _.each(all_jurisdictions[j_idx].documents, function(doc){
                 $("<option value='"+doc.manifest+"' data='"+doc.uri+"'>"+doc.title+"</option>").appendTo(sid);
             });

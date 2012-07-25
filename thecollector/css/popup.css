@@ -1,6 +1,25 @@
+html {
+    width: 516px;
+    height: 600px;
+}
+
 body {
     width: 500px;
-    height: 800px;
+    height: 600px;
+    font: 10pt Verdana, sans-serif;
+}
+
+.hero {
+    overflow: hidden;
+}
+
+.hero > img {
+    float: left;
+    margin-top: 10px;
+}
+
+.hero > div {
+    margin-left: 50px;
 }
 
 div.rubric {
@@ -12,8 +31,16 @@ span.statement {
     margin-left: 21px;
 }
 
+div.state_stds {
+    margin-left: 25px;
+}
+
 .state_stds select {
-    width: 458px;
+    width: 408px;
+}
+
+.state_stds label {
+    font-size: 12px;
 }
 
 .rating_desc {
@@ -53,6 +80,10 @@ span.statement {
 
 .radio label {
     font: 10pt Verdana, sans-serif;
+}
+
+#tabs {
+    min-height: 510px;
 }
 
 .grades select {

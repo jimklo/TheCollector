@@ -9,42 +9,46 @@
     <script type="text/javascript" src="js/require-jquery.js" data-main="js/popup.js"></script>
 </head>
 <body>
-<div id="hero"></div>
+<div class="hero Clear">
+    <img src="icons/icon-48.png" alt="TheCollector">
+    <div>
+        <label>Learning Resource</label>
+        <div id="tab_title" class="small_text"></div>
+        <div id="tab_uri" class="small_text"></div>
+    </div>
+</div>
 <div id="tabs">
     <ul>
         <li><a href="#rate-it">Rate It</a></li>
         <li><a href="#what-others-say">What Others are Saying</a></li>
     </ul>
     <div id="rate-it" class="panel">
-        <label for="tab_title">Learning Resource</label>
-        <div id="tab_title" class="small_text"></div>
-        <div id="tab_uri" class="small_text"></div>
-
         <div class="accordion">
-            <h3><a href="#">Match to Common Core Standards</a></h3>
+            <h3><a href="#">Match to Curricular Standards</a></h3>
             <div>
-                <label for="standardselector">Common Core Standard</label>
+                <label for="standardselector">Select Curricular Standard</label>
                 <div class="radio Clear">
-                <input type="radio" value="Literacy" name="standardselector" id="Literacy">
+                <input type="radio" value="Literacy" name="standardselector" id="Literacy" data="core">
                 <label for="Literacy">Common Core State Standards for English</label>
                 </div>
 
                 <div class="radio Clear">
-                <input type="radio" value="Math" name="standardselector" id="Math">
+                <input type="radio" value="Math" name="standardselector" id="Math" data="core">
                 <label for="Math">Common Core State Standards for Math</label>
                 </div>
-
+                
                 <div class="radio Clear">
-                <input type="radio" value="Math" name="standardselector" id="State">
-                <label for="State">State Standard</label>
+                <input type="radio" value="State" name="standardselector" id="State">
+                <label for="State">Other State Standard (select jurisdiction/standard below)</label>
                 </div>
-
                 <div class="state_stds">
+                    <label for="jurisdiction">Jurisdiction</label>
                     <select id="jurisdiction"></select>
+
+                    <label for="state_std">Standard</label>
                     <select id="state_std"></select>
                 </div>
 
-                <div class="standards">
                 <label for="grade-level">Grade Level</label>
                 <select id="grade-level" class="field grades">
                     <option value="K">K</option>
@@ -62,6 +66,7 @@
                     <option value="12">12</option>
                 </select>
 
+                <div class="standards">
                 <label for="category-browser"></label>
                 <div id="category-browser" class="treeview hidden">
                     <ul id="category-browser-list"></ul>
@@ -72,9 +77,107 @@
                 <input id="asn_url" type="hidden">
 
 
+
+                <!-- 
+
+
+<div class="scores selected" data-tag-id="63">
+                
+                  <div class="s1" data-score-id="1">
+                    <a href="#" class="rc5" data-bitly-type="bitly_hover_card">
+                      <input type="radio" name="tag63" id="tag63" value="3">
+                      <strong><label for="tag63">3</label></strong></a>
+                    
+                      <p class="tip">Mouse over for score description</p>
+                    
+                    <div class="description rc5"><p>An object has <em>superior</em> alignment <strong>if BOTH</strong> of the following are true: All of the content and performance expectations in the identified standard are completely addressed by the object. The content and performance expectations of the identified standard are the focus of the object.</p>
+<p>While some objects may cover a range of standards that could potentially be aligned, for a superior alignment the content and performance expectations must not be a peripheral part of the object.</p></div>
+                  </div>
+                
+                  <div class="s2" data-score-id="2">
+                    <a href="#" class="rc5" data-bitly-type="bitly_hover_card">
+                      <input type="radio" name="tag63" id="tag63" value="2">
+                      <strong><label for="tag63">2</label></strong></a>
+                    
+                    <div class="description rc5"><p>An object has <em>strong</em> alignment for one of two reasons:</p>
+<ul>
+<li>Covers all but minor elements of the standard, cluster or domain.</li>
+<li>The content and performance expectations of the standard align to a minor part of the object.</li>
+</ul></div>
+                  </div>
+                
+                  <div class="s3" data-score-id="3">
+                    <a href="#" class="rc5" data-bitly-type="bitly_hover_card">
+                      <input type="radio" name="tag63" id="tag63" value="1">
+                      <strong><label for="tag63">1</label></strong></a>
+                    
+                    <div class="description rc5"><p>An object has <em>limited</em> alignment if a significant part of the content or performance expectations of the identified standard is not addressed in the object, as long as there is fidelity to the part it does cover.</p>
+<p><em>For example, an object that aligns to CCSS 2.NBT.2, “Count within 1000; skip-count by 5s, 10s, and 100s,” but only addresses counting numbers to 500 would be considered to have limited alignment.  The object aligns very closely with a limited part of the standard.</em></p></div>
+                  </div>
+                
+                  <div class="s4" data-score-id="4">
+                    <a href="#" class="rc5" data-bitly-type="bitly_hover_card">
+                      <input type="radio" name="tag63" id="tag63" value="0">
+                      <strong><label for="tag63">0</label></strong></a>
+                    
+                    <div class="description rc5"><p>An object has <em>very weak</em> alignment for either one of two reasons:</p>
+<ul>
+<li>The object does not match the intended standards.</li>
+<li>The object matches only to minimally important aspects of a standard, cluster or domain.</li>
+</ul>
+<p>These objects will not typically be useful for instruction of core concepts and performances covered by the standard.</p></div>
+                  </div>
+                
+              </div>
+
+
+                 -->
+
             </div>
             <h3><a href="#">Rate the Resource</a></h3>
             <div>
+                <div class="Clear small_text rubric">
+                    <label for="rubric1">Degree of Alignment to Standards</label>
+                    <p>Applies to objects that have suggested alignments to the Common Core State Standards and is used to rate the degree of alignment. The degree of alignment of both content and performance expectations are considered. If appropriate, you may use the rubric to rate any of the standards that have been aligned to the object you are rating or align additional standards.</p>
+                    <div class="Clear"><span style="float:left;">FOO STD0:</span>
+                    <input name="rubric1" type="radio" class="align-hover-star required" title="Very Weak" value="0"/>
+                    <input name="rubric1" type="radio" class="align-hover-star required" title="Limited" value="1"/>
+                    <input name="rubric1" type="radio" class="align-hover-star required" title="Strong" value="2"/>
+                    <input name="rubric1" type="radio" class="align-hover-star required" title="Superior" value="3"/>
+                    <span id="rubric1_desc" class="rating_desc small_text"></span>
+                    </div>
+                    <div class="Clear"><span style="float:left;">FOO STD0: </span>
+                    <input name="rubric2" type="radio" class="align-hover-star required" title="Very Weak" value="0"/>
+                    <input name="rubric2" type="radio" class="align-hover-star required" title="Limited" value="1"/>
+                    <input name="rubric2" type="radio" class="align-hover-star required" title="Strong" value="2"/>
+                    <input name="rubric2" type="radio" class="align-hover-star required" title="Superior" value="3"/>
+                    <span id="rubric2_desc" class="rating_desc small_text"></span>
+                    </div>
+                    <div class="description hidden " data-score="3">
+                        <p>An object has <em>superior</em> alignment <strong>if BOTH</strong> of the following are true: All of the content and performance expectations in the identified standard are completely addressed by the object. The content and performance expectations of the identified standard are the focus of the object.</p>
+                        <p>While some objects may cover a range of standards that could potentially be aligned, for a superior alignment the content and performance expectations must not be a peripheral part of the object.</p>
+                    </div>
+                    <div class="description hidden" data-score="2">
+                        <p>An object has <em>strong</em> alignment for one of two reasons:</p>
+                        <ul>
+                        <li>Covers all but minor elements of the standard, cluster or domain.</li>
+                        <li>The content and performance expectations of the standard align to a minor part of the object.</li>
+                        </ul>
+                    </div>
+                    <div class="description hidden" data-score="1">
+                        <p>An object has <em>limited</em> alignment if a significant part of the content or performance expectations of the identified standard is not addressed in the object, as long as there is fidelity to the part it does cover.</p>
+                        <p><em>For example, an object that aligns to CCSS 2.NBT.2, “Count within 1000; skip-count by 5s, 10s, and 100s,” but only addresses counting numbers to 500 would be considered to have limited alignment.  The object aligns very closely with a limited part of the standard.</em></p>
+                    </div>
+                    <div class="description hidden" data-score="0">
+                        <p>An object has <em>very weak</em> alignment for either one of two reasons:</p>
+                        <ul>
+                        <li>The object does not match the intended standards.</li>
+                        <li>The object matches only to minimally important aspects of a standard, cluster or domain.</li>
+                        </ul>
+                        <p>These objects will not typically be useful for instruction of core concepts and performances covered by the standard.</p>
+                    </div>
+                </div>
+
                 <div class="Clear small_text rubric">
                     <label for="rating">Quality of Explanation of the Subject Matter</label>
                     <p>Applies to objects designed to explain subject matter. Used to rate how thoroughly subject matter is explained or otherwise revealed in the resource. Teachers might use object with whole class, small group, or individual student. Students might use this object to self-tutor.</p>
@@ -189,7 +292,7 @@
 
                 <div class="Clear small_text rubric">
                     <label for="rating4">Quality of Technological Interactivity</label>
-                    <p>Applies to objects that have a technology-based interactive component. Used to rate degree and quality of an object’s interactivity. Interactivity broadly means that the object responds to the user – the object behaves differently based on what the user does. This is not a rating for technology in general, but for technological interactivity.</p>
+                    <p>Applies to objects that have a technology-based interactive component. Used to rate degree and quality of an object's interactivity. Interactivity broadly means that the object responds to the user - the object behaves differently based on what the user does. This is not a rating for technology in general, but for technological interactivity.</p>
                     <input name="rating4" type="radio" class="hover-star required" title="Not Applicable" value="-1"/>
                     <input name="rating4" type="radio" class="hover-star required" title="Very Weak or No Value" value="0"/>
                     <input name="rating4" type="radio" class="hover-star required" title="Limited" value="1"/>
@@ -370,22 +473,4 @@
     <ul></ul>
     </li>
     {{/text}}
-</script>
-
-
-<script type="text/javascript">
-    
-    /*
-    {{#text}}
-    <li><a href="#">{{#asn_statementNotation}}<b class="dotNotation">{{#ccstd}}{{ccstd}}.{{/ccstd}}{{asn_statementNotation}}</b> {{/asn_statementNotation}}{{{text}}}</a>
-    <ul> 
-        {{^children}}
-            {{#dcterms_educationLevel}}
-                <li><a href="">{{prefLabel}}</a></li>
-            {{/dcterms_educationLevel}}
-        {{/children}}
-    </ul>
-    </li>
-    {{/text}}
-    */
 </script>

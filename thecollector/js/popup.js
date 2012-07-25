@@ -11,14 +11,16 @@ require.config(
             'sha1': 'libs/sha1',
             'underscore': 'libs/underscore-min',
             'Math': 'mcc',
-            'Literacy': 'ecc'
+            'Literacy': 'ecc',
+            'core-stds': 'core-stds'
         }
     });
-require(['jquery', 'jquery-ui', 'jquery.rating', 'jquery.jstree', 'common', 'Math', 'Literacy', 'lr', 'social', 'others-say', 'state-stds'], function($) {
+require(['jquery', 'jquery-ui', 'jquery.rating', 'jquery.jstree', 'common', 'Math', 'Literacy', 'lr', 'social', 'others-say', 'state-stds', 'core-stds'], function($) {
 
     var common = require('common');
     var others = require("others-say");
     var state_stds = require('state-stds');
+    var core_stds = require('core-stds');
 
     $("#tabs").tabs();
 
@@ -35,24 +37,38 @@ require(['jquery', 'jquery-ui', 'jquery.rating', 'jquery.jstree', 'common', 'Mat
     });
 
     state_stds.init('jurisdiction','state_std', function(stds){
+       $("input[name='standardselector']").prop('checked', false)
+            .filter("[value='State']").prop('checked',true);
+
         var big_std = stds,
             grade = $('#grade-level').val(),
             text = $('#state_std :selected').html(),
             std = trimTree(big_std, grade, null);
 
         cur_std = std;
-        numStds = std.length;
+        numStds = !!std ? std.length : 0;
+   
         $('label[for="category-browser"]').text(text);
-        $("#category-browser").html('<ul id="category-browser-list"></ul>');
-        jesco_tree(stds, null);
+        if (numStds === 0) {
+            $("#category-browser").html('No standard matching selected grade level.').show(500);
+        } else {
+            $("#category-browser").hide(500).html('<ul id="category-browser-list"></ul>');
+            jesco_tree(stds, null);
+            $("#category-browser").show(500);
+        }
         $("#grade-level").unbind('change');
         $("#grade-level").bind('change', function(evt) {
             var grade = $("#grade-level").val();
             var std = trimTree(big_std, grade, null);
             cur_std = big_std;
-            numStds = std.length;
-            $("#category-browser").html('<ul id="category-browser-list"></ul>');
-            jesco_tree(std, null)
+            numStds = !!std ? std.length : 0;
+            if (numStds === 0) {
+                $("#category-browser").hide(500).html('No standard matching selected grade level.').show(500);
+            } else {
+                $("#category-browser").hide(500).html('<ul id="category-browser-list"></ul>');
+                jesco_tree(std, null)
+                $("#category-browser").show(500);
+            }
         });
         $("div.standards").show(500, function(){ $(".accordion").accordion("resize"); });
 
@@ -160,7 +176,7 @@ require(['jquery', 'jquery-ui', 'jquery.rating', 'jquery.jstree', 'common', 'Mat
                                 "icons" : false
                             },
                             "ui": {
-                                "select_limit": 1
+                                "select_limit": 0
                             }
                         })
                         .bind("select_node.jstree", function (event, data) {
@@ -242,37 +258,44 @@ require(['jquery', 'jquery-ui', 'jquery.rating', 'jquery.jstree', 'common', 'Mat
     }
 
     var stds_cache = {};
-    function getStd(name) {
-        if (!stds_cache[name]) {
-            stds_cache[name] = require(name);
-        }
-        return stds_cache[name];
+    function getStd(name, cb) {
+        var std_info = core_stds.map[name],
+            xhr = common.ajax('GET', chrome.extension.getURL('js/'+std_info.manifest));
+            xhr.done(cb);
+        // if (!stds_cache[name]) {
+        //     stds_cache[name] = require(name);
+        // }
+        // return stds_cache[name];
     }
+
 
     var cur_std = null;
     var cur_ccstd = null;
-    $('input[name="standardselector"]').bind("change", function(evt) {
+    $('input[name="standardselector"][data="core"]').bind("change", function(evt) {
         var selected = $(evt.target).val();
         var text = $('label[for="'+selected+'"]').text();
         if (selected) {
             cur_ccstd = selected;
-            var big_std = getStd(selected);
-            var std = trimTree(big_std, $('#grade-level').val(), selected);
-            cur_std = big_std;
-            numStds = std.length;
-            $('label[for="category-browser"]').text(text);
-            $("#category-browser").html('<ul id="category-browser-list"></ul>');
-            jesco_tree(std, null);
-            $("#grade-level").unbind('change');
-            $("#grade-level").bind('change', function(evt) {
-                var grade = $("#grade-level").val();
-                var std = trimTree(big_std, grade, selected);
+            getStd(selected, function (big_std){
+                var std = trimTree(big_std, $('#grade-level').val(), selected);
                 cur_std = big_std;
                 numStds = std.length;
-                $("#category-browser").html('<ul id="category-browser-list"></ul>');
-                jesco_tree(std, null)
+                $('label[for="category-browser"]').text(text);
+                $("#category-browser").hide(500).html('<ul id="category-browser-list"></ul>');
+                jesco_tree(std, null);
+                $("#category-browser").show(500);
+                $("#grade-level").unbind('change');
+                $("#grade-level").bind('change', function(evt) {
+                    var grade = $("#grade-level").val();
+                    var std = trimTree(big_std, grade, selected);
+                    cur_std = big_std;
+                    numStds = std.length;
+                    $("#category-browser").hide(500).html('<ul id="category-browser-list"></ul>');
+                    jesco_tree(std, null);
+                    $("#category-browser").show(500);
+                });
+                $("div.standards").show(500, function(){ $(".accordion").accordion("resize"); });
             });
-            $("div.standards").show(500, function(){ $(".accordion").accordion("resize"); });
 
         } else {
             $("div.standards").hide(500, function(){ $(".accordion").accordion("resize"); });
@@ -306,7 +329,34 @@ require(['jquery', 'jquery-ui', 'jquery.rating', 'jquery.jstree', 'common', 'Mat
         }
     });
 
-    $(".accordion").accordion({ icons: false, clearStyle: true, autoHeight: false });
+    $(".align-hover-star").rating({
+        focus: function(value, link) {
+            var parent = $(this).parent();
+            var tip = parent.find(".rating_desc");
+            tip[0].data = tip[0].data || tip.html();
+            tip.html(link.title || value);
+            var full_tip = $(parent.parent()).find("div.description[data-score=\""+value+"\"]");
+            full_tip.removeClass("hidden");
+        },
+        blur: function(value, link){
+            var parent = $(this).parent();
+            var tip = parent.find(".rating_desc");
+            parent.find(".rating_desc").html(tip[0].data || '');
+
+            var full_tip = $(parent.parent()).find("div.description[data-score=\""+value+"\"]");
+            full_tip.addClass("hidden");
+        },
+        callback: function(value, link) {
+            var parent = $(this).parent();
+            var tip = parent.find(".rating_desc");
+            tip[0].data = tip[0].data || tip.html();
+            tip.html(link.title || value);
+        }
+    });
+
+    $(".accordion").accordion({ icons: false, clearStyle: true, autoHeight: false, changestart: function(event, ui) {
+        console.log(ui);
+    } });
 
     var lr = require("lr");
 
