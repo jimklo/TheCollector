@@ -4,6 +4,7 @@ require.config(
             'jquery-ui': 'libs/jquery-ui-1.8.21.custom.min',
             'jquery.jstree': 'libs/jquery.jstree',
             'jquery.rating': 'libs/jquery.rating.pack',
+            'jquery.tagsinput': 'libs/jquery.tagsinput.min',
             'moment': 'libs/moment.min',
             'mustache': 'libs/mustache',
             'oauth-simple': 'libs/oauth-simple',
@@ -15,12 +16,13 @@ require.config(
             'core-stds': 'core-stds'
         }
     });
-require(['jquery', 'jquery-ui', 'jquery.rating', 'jquery.jstree', 'common', 'Math', 'Literacy', 'lr', 'social', 'others-say', 'state-stds', 'core-stds'], function($) {
+require(['jquery', 'jquery-ui', 'jquery.rating', 'jquery.jstree', 'jquery.tagsinput', 'common', 'Math', 'Literacy', 'lr', 'social', 'others-say', 'state-stds', 'core-stds'], function($) {
 
-    var common = require('common');
-    var others = require("others-say");
-    var state_stds = require('state-stds');
-    var core_stds = require('core-stds');
+    var common = require('common'),
+        others = require("others-say"),
+        state_stds = require('state-stds'),
+        core_stds = require('core-stds'),
+        bgPage = chrome.extension.getBackgroundPage();
 
     $("#tabs").tabs();
 
@@ -181,11 +183,20 @@ require(['jquery', 'jquery-ui', 'jquery.rating', 'jquery.jstree', 'common', 'Mat
                         })
                         .bind("select_node.jstree", function (event, data) {
                             // `data.rslt.obj` is the jquery extended node that was clicked
+                            console.log("selected");
                             console.log(data.rslt.obj);
                             var clicked = data.rslt.obj;
                             $("#asn_dot_notation").val(clicked.find(".dotNotation").text());
                             $("#asn_text").val(clicked.find(".statement").text());
                             $("#asn_url").val(clicked.attr("id"));
+                        })
+                        .bind("check_node.jstree", function (event, data) {
+                            console.log("checked");
+                            makeStarsForChecked(event, data);
+                        })
+                        .bind("uncheck_node.jstree", function (event, data) {
+                            console.log("unchecked");
+                            makeStarsForChecked(event, data);
                         });
                         $(".accordion").accordion("resize");
                     }
@@ -196,6 +207,56 @@ require(['jquery', 'jquery-ui', 'jquery.rating', 'jquery.jstree', 'common', 'Mat
 
         }
         
+    }
+
+    function makeStarsForChecked(event, data) {
+        $("div.std-ratings").remove();
+        var checkedStandards = $.jstree._reference("#category-browser").get_checked(null, true).filter(".jstree-leaf[id]");
+
+        checkedStandards.each(function(index, elem) {
+            var li = $(elem),
+            asn = li.attr("id"),
+            dot = li.find(".dotNotation").html(),
+            stmt = li.find(".statement").html(),
+            text = li.find(".text").html(),
+            mdata = {
+                "asn": dot || "",
+                "std_key": stmt || text,
+                "std_id": "rating_"+asn 
+            };
+            
+            common.render("must_stars_stds", mdata, function(html){
+                var rating = $(html);
+                $("div.std-ratings-desc").before(rating);
+                rating.find(".align-hover-star").rating({
+                    focus: function(value, link) {
+                        var parent = $(this).parent();
+                        var tip = parent.find(".rating_desc");
+                        tip[0].data = tip[0].data || tip.html();
+                        tip.html(link.title || value);
+                        var full_tip = $(parent.parent()).find("div.description[data-score=\""+value+"\"]");
+                        full_tip.removeClass("hidden");
+                    },
+                    blur: function(value, link){
+                        var parent = $(this).parent();
+                        var tip = parent.find(".rating_desc");
+                        parent.find(".rating_desc").html(tip[0].data || '');
+
+                        var full_tip = $(parent.parent()).find("div.description[data-score=\""+value+"\"]");
+                        full_tip.addClass("hidden");
+                    },
+                    callback: function(value, link) {
+                        var parent = $(this).parent();
+                        var tip = parent.find(".rating_desc");
+                        tip[0].data = tip[0].data || tip.html();
+                        tip.html(link.title || value);
+                    }
+                });
+                
+            });
+            // console.log(elem);
+        });
+
     }
 
     function fetchStandards(selected, data, ccstd, format) {
@@ -262,11 +323,43 @@ require(['jquery', 'jquery-ui', 'jquery.rating', 'jquery.jstree', 'common', 'Mat
         var std_info = core_stds.map[name],
             xhr = common.ajax('GET', chrome.extension.getURL('js/'+std_info.manifest));
             xhr.done(cb);
-        // if (!stds_cache[name]) {
-        //     stds_cache[name] = require(name);
-        // }
-        // return stds_cache[name];
     }
+
+    
+    function restore_bio() {
+        var bio = common.fetchJSON("bio");
+        $('#tos').attr("checked", !!bio.tos_agreed?"checked":undefined);
+        common.render("must_bio", bio, function(html) {
+            $("#bio").html(html);
+        });
+    }
+    restore_bio();
+
+    function restore_twitter() {
+        function setTwitter(someTwit) {
+            common.render("twitter_user", someTwit, function(html){
+                $('#twitter_info').html(html);
+                $('#twitter_info').show();
+            }); 
+        }
+
+        if (bgPage.twitter.hasUserInfo()) {
+            // $('.sign_in_with_twitter').hide();
+            // $(".sign_off_with_twitter").show();
+            bgPage.twitter.fetchUserInfo(function(twit) {
+                setTwitter(twit);  
+            }, true);
+        } else {
+            // $('.sign_in_with_twitter').show();
+            // $(".sign_off_with_twitter").hide();
+            setTwitter({});
+        }
+    }
+    restore_twitter();
+
+
+
+    
 
 
     var cur_std = null;
@@ -329,40 +422,15 @@ require(['jquery', 'jquery-ui', 'jquery.rating', 'jquery.jstree', 'common', 'Mat
         }
     });
 
-    $(".align-hover-star").rating({
-        focus: function(value, link) {
-            var parent = $(this).parent();
-            var tip = parent.find(".rating_desc");
-            tip[0].data = tip[0].data || tip.html();
-            tip.html(link.title || value);
-            var full_tip = $(parent.parent()).find("div.description[data-score=\""+value+"\"]");
-            full_tip.removeClass("hidden");
-        },
-        blur: function(value, link){
-            var parent = $(this).parent();
-            var tip = parent.find(".rating_desc");
-            parent.find(".rating_desc").html(tip[0].data || '');
+    
 
-            var full_tip = $(parent.parent()).find("div.description[data-score=\""+value+"\"]");
-            full_tip.addClass("hidden");
-        },
-        callback: function(value, link) {
-            var parent = $(this).parent();
-            var tip = parent.find(".rating_desc");
-            tip[0].data = tip[0].data || tip.html();
-            tip.html(link.title || value);
-        }
-    });
-
-    $(".accordion").accordion({ icons: false, clearStyle: true, autoHeight: false, changestart: function(event, ui) {
-        console.log(ui);
-    } });
+    $(".accordion").accordion({ icons: false, clearStyle: true, autoHeight: false });
 
     var lr = require("lr");
 
 
     $("#submit_to_lr").bind('click', function (evt) {
-        var checkedStandards = $('#category-browser').jstree('get_checked').find('.jstree-leaf[id]');
+        var checkedStandards = $.jstree._reference("#category-browser").get_checked(null, true).filter(".jstree-leaf[id]");
 
         if (checkedStandards.length > 0 &&
             $("#tos").val() &&
@@ -428,10 +496,22 @@ require(['jquery', 'jquery-ui', 'jquery.rating', 'jquery.jstree', 'common', 'Mat
 
     });
 
-    var bio = common.fetchJSON("bio");
-    $("#tos").val(bio.tos || "");
-    $("#tos_attribution").val(bio.tos_attribution);
+    $('#tags').tagsInput({
+        height: '100px',
+        width: '454px'
+    });
 
+    
+
+    $("#comment").keydown(function(event, obj){
+        var self = $(this);
+        $("div.comment_chars").html((self.attr("maxlength") - self.val().length)+" characters remaining.");
+    }).keydown();
+
+    $('button.next').click(function(evt, obj){
+        var self = $(this);
+        $(".accordion").accordion("activate", parseInt(self.attr("data")));
+    });
 
 
 });

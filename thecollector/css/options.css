@@ -10,6 +10,21 @@ div.hero {
     color: #6C6C6C;
 }
 
+input[type=checkbox] {
+    width: 12px;
+}
+
+p.tos{
+    margin: -22px 0px 0px 28px;
+    width: 500px;
+    vertical-align: top;
+}
+
+p.note {
+    width: 500px;
+    font-size: 10pt;
+}
+
 .sign_in_with_twitter {
       background: white url(../images/sign-in-with-twitter_0.png) no-repeat top;
       width: 450px;
@@ -24,6 +39,12 @@ div.hero {
 
 .twitter_profile {
     font-size: 10pt;
+}
+
+img.bird {
+    height: 25px;
+    border: none;
+    margin: 7px -4px -7px 0px;
 }
 
 .clear {
@@ -43,6 +64,7 @@ div.hero {
 label {
     font: 14pt "Impact", Verdana, sans-serif;;
     color: #6C6C6C;
+    margin-top: 8px;
 }
 
 p, p * {
@@ -54,9 +76,14 @@ div.hero .green {
     color: #6C6C6C;
 }
 
+div.tabs {
+    min-width: 545px;
+}
+
 .tabs label, .tabs input, .tabs select {
     display: block;
     width: 500px;
+
 }
 
 #status {

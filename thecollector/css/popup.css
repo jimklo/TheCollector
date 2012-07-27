@@ -9,6 +9,30 @@ body {
     font: 10pt Verdana, sans-serif;
 }
 
+.avatar {
+    float: left;
+    padding: 4px;
+}
+
+.twitter_profile {
+    font-size: 13px;
+}
+
+img.bird {
+    height: 25px;
+    border: none;
+    margin: 7px -4px -7px 0px;
+}
+
+.bio {
+    font-size: 10pt;
+    margin-bottom: 10px;
+}
+
+.bio span {
+    text-transform: capitalize;
+}
+
 .hero {
     overflow: hidden;
 }
@@ -33,6 +57,11 @@ span.statement {
 
 div.state_stds {
     margin-left: 25px;
+}
+
+.std-ratings {
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 .state_stds select {
@@ -82,8 +111,28 @@ div.state_stds {
     font: 10pt Verdana, sans-serif;
 }
 
-#tabs {
-    min-height: 510px;
+.publish input[type=checkbox] {
+    float: left;
+    vertical-align: top;
+}
+.publish label[for=tos] {
+    margin-left: 24px;
+    vertical-align: top;
+    font: 10pt Verdana, sans-serif;
+}
+
+.comments textarea {
+    width: 466px;
+}
+
+button.next, button.submit {
+    font-size: 15px;
+    margin-top: 10px;
+}
+
+.comments div#tags_tagsinput.tagsinput {
+    border-color: #999999;
+    border-top-color: #737373;
 }
 
 .grades select {

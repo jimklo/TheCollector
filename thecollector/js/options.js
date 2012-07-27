@@ -4,6 +4,7 @@ require.config(
             'jquery-ui': 'libs/jquery-ui-1.8.21.custom.min',
             'jquery.jstree': 'libs/jquery.jstree',
             'jquery.rating': 'libs/jquery.rating.pack',
+            'jquery.tagsinput': 'libs/jquery.tagsinput.min',
             'moment': 'libs/moment.min',
             'mustache': 'libs/mustache',
             'oauth-simple': 'libs/oauth-simple',
@@ -15,7 +16,7 @@ require.config(
         }
 
     });
-require(['common', 'jquery', 'jquery-ui'], function(common, $) {
+require(['common', 'jquery', 'jquery.tagsinput', 'jquery-ui'], function(common, $) {
     var common = require('common');
     var bgPage = chrome.extension.getBackgroundPage();
 
@@ -43,10 +44,12 @@ require(['common', 'jquery', 'jquery-ui'], function(common, $) {
     function save_bio() {
         var bio = {
             occupation: $('#occupation').val(),
+            occupation_other: $('#occupation_other').val(),
             grade: $('#grade').val(),
+            grade_other: $('#grade_other').val(),
             subject: $('#subject').val(),
             tos: $('#tos').val(),
-            tos_attribution: $('#tos_attribution').val(),
+            tos_agreed: !!$('#tos').attr('checked'),
             twitter: $('#twitter').val()
         };
 
@@ -97,10 +100,12 @@ require(['common', 'jquery', 'jquery-ui'], function(common, $) {
             return;
         }
         $('#occupation').val(bio.occupation || "");
+        $('#occupation_other').val(bio.occupation_other || "");
         $('#grade').val(bio.grade || "");
+        $('#grade_other').val(bio.grade_other || "");
         $('#subject').val(bio.subject || "");
         $('#tos').val(bio.tos || "");
-        $('#tos_attribution').val(bio.tos_attribution || "");
+        $('#tos').attr("checked", !!bio.tos_agreed?"checked":undefined);
         $('#twitter').val(bio.twitter || "");
     }
 
@@ -124,6 +129,19 @@ require(['common', 'jquery', 'jquery-ui'], function(common, $) {
         }
     }
 
+    function handle_other() {
+        $("option[value=other]").parent().bind('change', function(evtData) {
+            var self = $(this),
+                other = $("#"+self.attr("id")+"_other");
+
+            if (self.val() === "other") {
+                other.show(500);
+            } else {
+                other.hide(500).val("");
+            }
+        }).change();
+
+    }
 
 
 
@@ -137,5 +155,11 @@ require(['common', 'jquery', 'jquery-ui'], function(common, $) {
         restore_oauth();
         restore_bio();
         restore_twitter();
+        handle_other();
+
+        $('input.tags').tagsInput({
+            height: '100px',
+            width: '500px'
+        });
     });
 });

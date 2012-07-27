@@ -4,6 +4,7 @@
 
     <link type="text/css" href="css/start/jquery-ui-1.8.21.custom.css" rel="Stylesheet" />  
     <link rel="stylesheet" href="css/jquery.rating.css">
+    <link rel="stylesheet" href="css/jquery.tagsinput.css" />
     <link rel="stylesheet" href="css/popup.css">
     <script type="text/javascript" src="js/libs/raphael-min.js"></script>
     <script type="text/javascript" src="js/require-jquery.js" data-main="js/popup.js"></script>
@@ -75,71 +76,14 @@
                 <input id="asn_dot_notation" type="hidden">
                 <input id="asn_text" type="hidden">
                 <input id="asn_url" type="hidden">
-
-
-
-                <!-- 
-
-
-<div class="scores selected" data-tag-id="63">
-                
-                  <div class="s1" data-score-id="1">
-                    <a href="#" class="rc5" data-bitly-type="bitly_hover_card">
-                      <input type="radio" name="tag63" id="tag63" value="3">
-                      <strong><label for="tag63">3</label></strong></a>
-                    
-                      <p class="tip">Mouse over for score description</p>
-                    
-                    <div class="description rc5"><p>An object has <em>superior</em> alignment <strong>if BOTH</strong> of the following are true: All of the content and performance expectations in the identified standard are completely addressed by the object. The content and performance expectations of the identified standard are the focus of the object.</p>
-<p>While some objects may cover a range of standards that could potentially be aligned, for a superior alignment the content and performance expectations must not be a peripheral part of the object.</p></div>
-                  </div>
-                
-                  <div class="s2" data-score-id="2">
-                    <a href="#" class="rc5" data-bitly-type="bitly_hover_card">
-                      <input type="radio" name="tag63" id="tag63" value="2">
-                      <strong><label for="tag63">2</label></strong></a>
-                    
-                    <div class="description rc5"><p>An object has <em>strong</em> alignment for one of two reasons:</p>
-<ul>
-<li>Covers all but minor elements of the standard, cluster or domain.</li>
-<li>The content and performance expectations of the standard align to a minor part of the object.</li>
-</ul></div>
-                  </div>
-                
-                  <div class="s3" data-score-id="3">
-                    <a href="#" class="rc5" data-bitly-type="bitly_hover_card">
-                      <input type="radio" name="tag63" id="tag63" value="1">
-                      <strong><label for="tag63">1</label></strong></a>
-                    
-                    <div class="description rc5"><p>An object has <em>limited</em> alignment if a significant part of the content or performance expectations of the identified standard is not addressed in the object, as long as there is fidelity to the part it does cover.</p>
-<p><em>For example, an object that aligns to CCSS 2.NBT.2, “Count within 1000; skip-count by 5s, 10s, and 100s,” but only addresses counting numbers to 500 would be considered to have limited alignment.  The object aligns very closely with a limited part of the standard.</em></p></div>
-                  </div>
-                
-                  <div class="s4" data-score-id="4">
-                    <a href="#" class="rc5" data-bitly-type="bitly_hover_card">
-                      <input type="radio" name="tag63" id="tag63" value="0">
-                      <strong><label for="tag63">0</label></strong></a>
-                    
-                    <div class="description rc5"><p>An object has <em>very weak</em> alignment for either one of two reasons:</p>
-<ul>
-<li>The object does not match the intended standards.</li>
-<li>The object matches only to minimally important aspects of a standard, cluster or domain.</li>
-</ul>
-<p>These objects will not typically be useful for instruction of core concepts and performances covered by the standard.</p></div>
-                  </div>
-                
-              </div>
-
-
-                 -->
-
+                <button class="next" data="1">Next</button>
             </div>
-            <h3><a href="#">Rate the Resource</a></h3>
+            <h3 class="ratings"><a href="#">Rate the Resource</a></h3>
             <div>
                 <div class="Clear small_text rubric">
                     <label for="rubric1">Degree of Alignment to Standards</label>
                     <p>Applies to objects that have suggested alignments to the Common Core State Standards and is used to rate the degree of alignment. The degree of alignment of both content and performance expectations are considered. If appropriate, you may use the rubric to rate any of the standards that have been aligned to the object you are rating or align additional standards.</p>
-                    <div class="Clear"><span style="float:left;">FOO STD0:</span>
+<!--                     <div class="Clear"><span style="float:left;">FOO STD0:</span>
                     <input name="rubric1" type="radio" class="align-hover-star required" title="Very Weak" value="0"/>
                     <input name="rubric1" type="radio" class="align-hover-star required" title="Limited" value="1"/>
                     <input name="rubric1" type="radio" class="align-hover-star required" title="Strong" value="2"/>
@@ -152,8 +96,8 @@
                     <input name="rubric2" type="radio" class="align-hover-star required" title="Strong" value="2"/>
                     <input name="rubric2" type="radio" class="align-hover-star required" title="Superior" value="3"/>
                     <span id="rubric2_desc" class="rating_desc small_text"></span>
-                    </div>
-                    <div class="description hidden " data-score="3">
+                    </div> -->
+                    <div class="description hidden std-ratings-desc" data-score="3">
                         <p>An object has <em>superior</em> alignment <strong>if BOTH</strong> of the following are true: All of the content and performance expectations in the identified standard are completely addressed by the object. The content and performance expectations of the identified standard are the focus of the object.</p>
                         <p>While some objects may cover a range of standards that could potentially be aligned, for a superior alignment the content and performance expectations must not be a peripheral part of the object.</p>
                     </div>
@@ -391,24 +335,39 @@
                     </div>
                 </div>
 
-
+                <button class="next" data="2">Next</button>
             </div>
-            <h3><a href="#">Publish to Learning Registry</a></h3>
-            <div class="small_text">
-                
-                <p>By clicking <em>Publish</em>, You have read and agree to the Learning Registry's <a href="http://www.learningregistry.org/tos" target="_blank">Terms of Service and License options</a> and selected the option appropriate for yourself.</p>
-                <label for="tos">Terms Of Service / License</label>
-                <select name="tos" id="tos">
-                    <option value=""></option>
-                    <option value="http://www.learningregistry.org/tos/cc-by-3-0/v0-5/">CC-BY-3.0</option>
-                    <option value="http://www.learningregistry.org/tos/pdm/v0-5/">PDM</option>
-                    <option value="http://www.learningregistry.org/tos/cc0/v0-5/">CC0</option>
-                    <option value="http://www.learningregistry.org/tos/pddl-1-0/v0-5/">PPDL</option>
-                </select>
-                <label for="tos_attribution">Attribution</label>
-                <input name="tos_attribution" id="tos_attribution" type="text">
 
-                <button id="submit_to_lr">Publish</button><span id="status_msg"></span>
+            <h3><a href="#">Tags &amp; Comments</a></h3>
+            <div class="small_text comments">
+                
+                <p>
+                <label for="tags">Tags</label>
+                Tagging the resource with relevant keywords helps others locate the resource.</p>
+                <input id="tags">
+
+                <p>
+                <label for="comment">Comments</label>
+                You may provide additional commentary regarding the resource.</p>
+                <div class="comment_chars"></div>
+                <textarea id="comment" rows="7" maxlength="500"></textarea>
+                
+                <button class="next" data="3">Next</button>
+            </div>
+
+            <h3><a href="#">Publish to Learning Registry</a></h3>
+            <div class="small_text publish">
+                <label>My Identity</label>
+                <div id="twitter_info" class="Clear"></div>
+                <div id="bio" class="Clear bio"></div>
+
+        <div class="Clear">
+        <label>Information Assurances</label>
+        <input type="checkbox" name="tos" id="tos" value="http://www.learningregistry.org/information-assurances/open-information-assurances-1-0">        
+        <label for="tos">I agree that all information provided by me to the Learning Registry is in compliance with <a href="http://www.learningregistry.org/information-assurances/open-information-assurances-1-0" target="_blank">Learning Registry's Open Information Assurances</a> policy.</label>
+        </div>
+
+                <button id="submit_to_lr" class="submit">Publish</button><span id="status_msg"></span>
             </div>
         </div>
     </div>
@@ -419,6 +378,44 @@
 </div>
 </body>
 </html>
+
+<script type="text/x-mustache" id="twitter_user">
+    {{#screen_name}}
+    <div class="twitter_profile clear">
+        <img src="{{profile_image_url_https}}" class="avatar"/>
+        <div class="avatar_info">
+            <strong>{{name}}</strong> <img src="images/twitter-bird-light-bgs.png" class="bird">@{{screen_name}}<br/>
+            {{description}}
+        </div>
+    </div>
+    {{/screen_name}}
+    <input type="hidden" id="twitter" value="{{screen_name}}">
+</script>
+
+<script type="text/x-mustache" id="must_bio">
+    <div class="bio-occupation">
+        Occupation: <span>{{occupation}}{{#occupation_other}}: {{occupation_other}}{{/occupation_other}}</span>
+    </div>
+    <div class="bio-grade">
+        Grade Level: <span>{{grade}}{{#grade_other}}: {{grade_other}}{{/grade_other}}</span>
+    </div>
+    <div class="bio-subject">
+        Areas of Interest: <span>{{subject}}<span>
+    </div>
+</script>
+
+<script type="text/x-mustache" id="must_stars_stds">
+    {{#std_key}}
+    <div class="Clear std-ratings">
+        <div>{{#asn}}<em>{{asn}}</em><br/>{{/asn}}{{std_key}}</div>
+        <input name="{{std_id}}" type="radio" class="align-hover-star required" title="Very Weak" value="0"/>
+        <input name="{{std_id}}" type="radio" class="align-hover-star required" title="Limited" value="1"/>
+        <input name="{{std_id}}" type="radio" class="align-hover-star required" title="Strong" value="2"/>
+        <input name="{{std_id}}" type="radio" class="align-hover-star required" title="Superior" value="3"/>
+        <span id="{{std_id}}_desc" class="rating_desc small_text"></span>
+    </div>
+    {{/std_key}}
+</script>
 
 <script type="text/x-mustache" id="must_social_stds">
 
@@ -468,7 +465,7 @@
     {{#text}}
     <li {{#id}}id="{{id}}"{{/id}}><a href="#" >
         {{#asn_statementNotation}}<b class="dotNotation">{{#ccstd}}{{ccstd}}.{{/ccstd}}{{asn_statementNotation}}</b><br/><span class="statement">{{#denumeral}}{{{text}}}{{/denumeral}}</span>{{/asn_statementNotation}}
-        {{^asn_statementNotation}}{{{text}}}{{/asn_statementNotation}}
+        {{^asn_statementNotation}}<span class="text">{{{text}}}</span>{{/asn_statementNotation}}
     </a>
     <ul></ul>
     </li>

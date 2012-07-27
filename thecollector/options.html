@@ -1,7 +1,8 @@
 <html>
 <head>
     <title>The Collector - Options</title>
-    <link type="text/css" href="css/start/jquery-ui-1.8.21.custom.css" rel="Stylesheet" />  
+    <link type="text/css" href="css/start/jquery-ui-1.8.21.custom.css" rel="Stylesheet" /> 
+    <link type="text/css" href="css/jquery.tagsinput.css" rel="Stylesheet" />  
     <link type="text/css" href="css/options.css" rel="Stylesheet" />  
     <script type="text/javascript" src="js/require-jquery.js" data-main="js/options.js"></script>
 </head>
@@ -25,52 +26,42 @@
         <label for="occupation">Occupation</label>
         <select name="occupation" id="occupation">
             <option value=""></option>
-            <option value="enthusiast">Enthusiast</option>
             <option value="educator">Educator</option>
+            <option value="enthusiast">Enthusiast</option>
             <option value="student">Student</option>
+            <option value="other">Other</option>
         </select>
+        <input type="text" id="occupation_other" value="" style="display: none;">
 
-        <label for="grade">Grade</label>
+        <label for="grade">Grade Level</label>
         <select name="grade" id="grade">
             <option value=""></option>
-            <option value="K">K</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
-            <option value="9">9</option>
-            <option value="10">10</option>
-            <option value="11">11</option>
-            <option value="12">12</option>
-            <option value="highered">Higher Education</option>
+            <option value="preschool">Preschool</option>
+            <option value="elementary school">Elementary School (K - 5)</option>
+            <option value="middle school">Middle School (6 - 8)</option>
+            <option value="high school">High School (9 - 12)</option>
+            <option value="post-secondary">Post-Secondary</option>
+            <option value="other">Other</option>
         </select>
+        <input type="text" id="grade_other" value=""   style="display: none;">
 
-        <label for="subject">Subject</label>
-        <select name="subject" id="subject">
+        <label for="subject">Areas of Interest</label>
+        <input name="subject" id="subject" class="tags">
+<!--         <select name="subject" id="subject">
             <option value=""></option>
             <option value="career-tech">Career and Technical</option>
             <option value="ela">English Language Arts</option>
             <option value="math">Mathematics</option>
             <option value="science">Science</option>
-        </select>
+            <option value="other">Other</option>
+        </select> -->
 
 
-        <label for="tos">Terms Of Service / License<sup>*</sup></label>
-        <select name="tos" id="tos">
-            <option value=""></option>
-            <option value="http://www.learningregistry.org/tos/cc-by-3-0/v0-5/">CC-BY-3.0</option>
-            <option value="http://www.learningregistry.org/tos/pdm/v0-5/">PDM</option>
-            <option value="http://www.learningregistry.org/tos/cc0/v0-5/">CC0</option>
-            <option value="http://www.learningregistry.org/tos/pddl-1-0/v0-5/">PPDL</option>
-        </select>
+        <label for="tos">Information Assurance<sup>*</sup></label>
+        <input type="checkbox" name="tos" id="tos" value="http://www.learningregistry.org/information-assurances/open-information-assurances-1-0">
+        <p class="tos">I agree that all information provided by me to the Learning Registry is in compliance with <a href="http://www.learningregistry.org/information-assurances/open-information-assurances-1-0" target="_blank">Learning Registry's Open Information Assurances</a> policy.</p>
 
-        <label for="tos_attribution">License Attribution</label>
-        <input name="tos_attribution" id="tos_attribution" type="text">
-        <p><sup>*</sup>More on Terms of Service and Licensing options here: <a href="http://www.learningregistry.org/tos" target="_blank">http://www.learningregistry.org/tos</a></p>
+        <p class="note"><sup>*</sup>Additional information regarding Information Assurances may by found here: <a href="http://www.learningregistry.org/information-assurances" target="_blank">http://www.learningregistry.org/information-assurances</a>.</p>
 
         <button class="save_bio">Save</button>
     </div>
@@ -102,7 +93,7 @@
     <div class="twitter_profile clear">
         <img src="{{profile_image_url_https}}" class="avatar"/>
         <div class="avatar_info">
-            <strong>{{name}}</strong> - @{{screen_name}}<br/>
+            <strong>{{name}}</strong> <img src="images/twitter-bird-light-bgs.png" class="bird">@{{screen_name}}<br/>
             {{description}}
         </div>
     </div>

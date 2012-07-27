@@ -35,7 +35,7 @@ require(["jquery", "twitter-oauth", "social"], function($, TwitterOAuth, social)
 
                 localStorage['twitter'] = data;
                 if (callback) {
-                    callback();
+                    callback(JSON.parse(data));
                 }
             }
         }
@@ -49,8 +49,8 @@ require(["jquery", "twitter-oauth", "social"], function($, TwitterOAuth, social)
         return JSON.parse(localStorage['twitter']);
     }
 
-    twitter.fetchUserInfo = function(callback) {
-        if (!twitter.hasUserInfo()) {
+    twitter.fetchUserInfo = function(callback, force) {
+        if (!twitter.hasUserInfo() || !!force) {
             var url = "https://api.twitter.com/1/account/verify_credentials.json";
 
             var params = {};
