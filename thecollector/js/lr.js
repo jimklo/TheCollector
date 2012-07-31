@@ -1,8 +1,8 @@
-define(['require', 'common', 'sha1', 'oauth', 'jquery', 'underscore', 'rubric', 'paradata'], function(require, common, sha1, oauth, $) {
+define(['require', 'common', 'sha1', 'oauth', 'jquery', 'underscore', 'paradata'], function(require, common, sha1, oauth, $) {
 
     var _ = require('underscore');
 
-    function getLREnvelope(info, oauth_data, bio, resource) {
+    function getLREnvelope(info, oauth_data, bio, resource, tags) {
 
         var username = null;
         // console.log(oauth_data);
@@ -30,8 +30,9 @@ define(['require', 'common', 'sha1', 'oauth', 'jquery', 'underscore', 'rubric', 
             payload_placement: "inline",
             payload_schema: ["LR Paradata 1.0", "TheCollector" ],
             resource_data : resource,
-            keys: [ "TheCollector" ]
-        }
+            keys: (!!tags && tags.length > 0) ? tags : [ "TheCollector" ]
+        };
+
         return resource_data_document;
     }
 
@@ -54,27 +55,6 @@ define(['require', 'common', 'sha1', 'oauth', 'jquery', 'underscore', 'rubric', 
             accessor: accessor
         };
     }
-
-    // function ajax(method, url, options) {
-    //     var settings = {
-    //         type: method,
-    //         contentType: "application/json",
-    //         dataType: "json"
-    //     }
-    //     if (options) {
-    //         settings = _.extend(settings, options);
-    //     }
-    //     var request = $.ajax(url, settings);
-    //     request.done(function(msg){
-    //         console.log("Done");
-    //         console.log(msg);
-    //     });
-    //     request.fail(function(msg){
-    //         console.log("Fail");
-    //         console.log(msg);
-    //     });
-    //     return request;
-    // }
 
     function oauthRequest(method, path, message, accessor, undefined) {
         message.action = path;
@@ -121,27 +101,45 @@ define(['require', 'common', 'sha1', 'oauth', 'jquery', 'underscore', 'rubric', 
     }
 
     var paradata_util = require("paradata");
-    var rubric_util = require("rubric");
 
     return {
         submitToLR: function(info) {
             var bio = common.fetchJSON('bio');
             var oauth_data = common.fetchJSON('oauth');
 
+            if (!!bio.twitter) {
+                bio.twitter_info = common.fetchJSON('twitter');
+            }
+            var tags = ["TheCollector"]
+            if (!!info.tags){
+                tags = tags.concat(info.tags.split(/,/));
+            }
             var envelopes = [];
 
-            // Standards Alignment
+            // Standards Alignment & Rubric I Ratings
             var paradata_list = paradata_util.getLRParadataForStandard(info, bio);
             _.each(paradata_list, function(paradata) {
-                envelopes.push(getLREnvelope(info, oauth_data, bio, paradata));            
+                envelopes.push(getLREnvelope(info, oauth_data, bio, paradata, tags));            
             });
 
-            // Rubric Ratings
+            // Rubric II - VII Ratings
             _.each(info.ratings, function(rubric_rating, rubric_key) {
                 info.rating = rubric_rating;
-                paradata = paradata_util.getLRParadataForRubric(info, bio, rubric_util[rubric_key]);
-                envelopes.push(getLREnvelope(info, oauth_data, bio, paradata)); 
+                var paradata = paradata_util.getLRParadataForRubric(info, bio, rubric_key);
+                envelopes.push(getLREnvelope(info, oauth_data, bio, paradata, tags)); 
             });
+
+            // Comments
+            var paradata = paradata_util.getLRParadataForComment(info, bio);
+            if (paradata) {
+                envelopes.push(getLREnvelope(info, oauth_data, bio, paradata, tags));
+            }
+
+            // tags
+            paradata = paradata_util.getLRParadataForTags(info, bio);
+            if (paradata) {
+                envelopes.push(getLREnvelope(info, oauth_data, bio, paradata, tags));
+            }
 
             return postEnvelopes(oauth_data, envelopes);
         }

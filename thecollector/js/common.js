@@ -105,7 +105,12 @@ var doMustachePartials = function (id, partials, data, callback) {
 }
 
 var fetchJSON = function (key) {
-    return JSON.parse(localStorage[key]);
+    try {
+        return JSON.parse(localStorage[key]);
+    } catch (e) {
+        console.log(e);
+        return undefined;
+    }
 }
 
 var putJSON = function(key, obj) {

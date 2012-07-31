@@ -118,7 +118,7 @@ require(['jquery', 'jquery-ui', 'jquery.rating', 'jquery.jstree', 'jquery.tagsin
                             trimmed.dcterms_educationLevel[i] = {
                                 prefLabel: tree.dcterms_educationLevel[i].prefLabel
                             };
-                            if (tree.dcterms_educationLevel[i].prefLabel === grade) {
+                            if (!!grade && tree.dcterms_educationLevel[i].prefLabel === grade) {
                                 containsGrade = true;
                             }
                         }
@@ -126,7 +126,7 @@ require(['jquery', 'jquery-ui', 'jquery.rating', 'jquery.jstree', 'jquery.tagsin
                         trimmed.dcterms_educationLevel[0] = {
                             prefLabel: tree.dcterms_educationLevel.prefLabel
                         }
-                        if (tree.dcterms_educationLevel.prefLabel === grade) {
+                        if (!!grade && tree.dcterms_educationLevel.prefLabel === grade) {
                             containsGrade = true;
                         }
 
@@ -137,7 +137,7 @@ require(['jquery', 'jquery-ui', 'jquery.rating', 'jquery.jstree', 'jquery.tagsin
                     trimmed.id = tree.id
                 }
 
-                if (!containsGrade) {
+                if (!!grade && !containsGrade) {
                     trimmed = null;
                 }           
 
@@ -222,7 +222,7 @@ require(['jquery', 'jquery-ui', 'jquery.rating', 'jquery.jstree', 'jquery.tagsin
             mdata = {
                 "asn": dot || "",
                 "std_key": stmt || text,
-                "std_id": "rating_"+asn 
+                "std_id": asn 
             };
             
             common.render("must_stars_stds", mdata, function(html){
@@ -240,7 +240,12 @@ require(['jquery', 'jquery-ui', 'jquery.rating', 'jquery.jstree', 'jquery.tagsin
                     blur: function(value, link){
                         var parent = $(this).parent();
                         var tip = parent.find(".rating_desc");
-                        parent.find(".rating_desc").html(tip[0].data || '');
+                        var checked = parent.find("input[type='radio']:checked");
+                        if (checked.length > 0) {
+                            parent.find(".rating_desc").html(checked[0].title);
+                        } else {
+                            parent.find(".rating_desc").html(tip[0].data || '');
+                        }
 
                         var full_tip = $(parent.parent()).find("div.description[data-score=\""+value+"\"]");
                         full_tip.addClass("hidden");
@@ -409,7 +414,12 @@ require(['jquery', 'jquery-ui', 'jquery.rating', 'jquery.jstree', 'jquery.tagsin
         blur: function(value, link){
             var parent = $(this).parent();
             var tip = parent.find(".rating_desc");
-            parent.find(".rating_desc").html(tip[0].data || '');
+            var checked = parent.find("input[type='radio']:checked");
+            if (checked.length > 0) {
+                parent.find(".rating_desc").html(checked[0].title);
+            } else {
+                parent.find(".rating_desc").html(tip[0].data || '');
+            }
 
             var full_tip = parent.find("div.description[data-score=\""+value+"\"]");
             full_tip.addClass("hidden");
@@ -424,17 +434,57 @@ require(['jquery', 'jquery-ui', 'jquery.rating', 'jquery.jstree', 'jquery.tagsin
 
     
 
-    $(".accordion").accordion({ icons: false, clearStyle: true, autoHeight: false });
+    $(".accordion").accordion({ icons: false, clearStyle: true, autoHeight: false, 
+        change: function(event, ui){
+                ui.newHeader[0].scrollIntoView();
+        }});
 
     var lr = require("lr");
 
+    $("input#tos").bind('change', function(evt) {
+        var self = $(this);
+        if (!!self.attr("checked")) {
+            $("#submit_to_lr").removeAttr("disabled");
+        } else {
+            $("#submit_to_lr").attr("disabled", "disabled");
+        }
+    }).change();
+
+    function getJurisdictionAndStandard() {
+        var std = $("input[name='standardselector']:checked").val(),
+            info = {
+                jurisdiction: null,
+                standard: null
+            };
+
+        if (std === "State") {
+            var juris = $("select#jurisdiction :selected").text(),
+                st_std = $("select#state_std :selected").text();
+            info.jurisdiction = juris;
+            info.standard = st_std;
+
+        } else {
+            info.jurisdiction = "Common Core State Standards";
+            if (std === "Math")
+                info.standard = "Common Core State Standards for Mathematics";
+            else if (std === "Literacy") {
+                info.standard = "Common Core State Standards for English Language Arts & Literacy in History/Social Studies, Science, and Technical Subjects";
+            }
+        }
+
+        return info;
+
+    }
 
     $("#submit_to_lr").bind('click', function (evt) {
         var checkedStandards = $.jstree._reference("#category-browser").get_checked(null, true).filter(".jstree-leaf[id]");
-
-        if (checkedStandards.length > 0 &&
-            $("#tos").val() &&
-            $("input.hover-star:checked").length == 6) {
+        var ratedStandards = $("input[type=radio].align-hover-star:checked");
+        var ratings = $("input[type=radio].hover-star:checked");
+        
+        if ((checkedStandards.length > 0 ||
+            ratedStandards.length > 0 || 
+            ratings.length == 6) && 
+            !!$("#tos").attr("checked")) {
 
             var info = {
                 resource_title: $("#tab_title").text(),
@@ -443,8 +493,12 @@ require(['jquery', 'jquery-ui', 'jquery.rating', 'jquery.jstree', 'jquery.tagsin
                 ratings: { },
                 tos: {
                     submission_TOS: $("#tos").val()
-                }
+                },
+                tags: $("#tags").val(),
+                comment: $("#comment").val()
             }
+
+            
 
             var standards = {};
             $.map(checkedStandards, function(val, i){
@@ -454,23 +508,32 @@ require(['jquery', 'jquery-ui', 'jquery.rating', 'jquery.jstree', 'jquery.tagsin
                 }
             });
 
+            var standards_info = getJurisdictionAndStandard();
             info.standards = fetchStandards(standards, cur_std, cur_ccstd, function (std) {
-                return {
-                    dot_notation: std.ccstd + "." + std.asn_statementNotation,
+                var s =  {
+                    dot_notation: std.ccstd ? std.ccstd+"."+std.asn_statementNotation : std.asn_statementNotation,
                     text: std.text,
                     url: std.id,
-                    grade_level: std.dcterms_educationLevel
+                    grade_level: std.dcterms_educationLevel,
+                    jurisdiction: standards_info.jurisdiction,
+                    standard: standards_info.standard
                 }
+
+
+                var rating = $("input[type=radio][data-asn='"+std.id+"'].align-hover-star:checked");
+                if (rating.length > 0) {
+                    s.rating = {
+                        rubric: "rubric1",
+                        value: rating.val()
+                    }
+                } 
+
+                return s;
             });
 
-            $("input.hover-star:checked").each(function(idx, e){
+            ratings.each(function(idx, e){
                 info.ratings[e.name] = parseInt(e.value);
             });
-
-            var attribution = $("#tos_attribution").val();
-            if (attribution) {
-                info.tos.submission_attribution = attribution;
-            }
 
             var xhr = lr.submitToLR(info);
 

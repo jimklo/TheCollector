@@ -20,12 +20,12 @@
 </div>
 <div id="tabs">
     <ul>
-        <li><a href="#rate-it">Rate It</a></li>
-        <li><a href="#what-others-say">What Others are Saying</a></li>
+        <li><a href="#rate-it">Review</a></li>
+        <li><a href="#what-others-say">Community Rankings</a></li>
     </ul>
     <div id="rate-it" class="panel">
         <div class="accordion">
-            <h3><a href="#">Match to Curricular Standards</a></h3>
+            <h3 id="acc-match-stds"><a href="#">Match to Curricular Standards</a></h3>
             <div>
                 <label for="standardselector">Select Curricular Standard</label>
                 <div class="radio Clear">
@@ -52,6 +52,7 @@
 
                 <label for="grade-level">Grade Level</label>
                 <select id="grade-level" class="field grades">
+                    <option value="">Any</option>
                     <option value="K">K</option>
                     <option value="1">1</option>
                     <option value="2">2</option>
@@ -78,7 +79,7 @@
                 <input id="asn_url" type="hidden">
                 <button class="next" data="1">Next</button>
             </div>
-            <h3 class="ratings"><a href="#">Rate the Resource</a></h3>
+            <h3 id="acc-ratings" class="ratings"><a href="#">Rate the Resource</a></h3>
             <div>
                 <div class="Clear small_text rubric">
                     <label for="rubric1">Degree of Alignment to Standards</label>
@@ -120,17 +121,20 @@
                         </ul>
                         <p>These objects will not typically be useful for instruction of core concepts and performances covered by the standard.</p>
                     </div>
+                    <div class="description hidden" data-score="-1">
+                        <p>This rubric is <em>not applicable</em> for an object that has no suggested standards for alignment. For example, the rubric might not be applicable to a set of raw data.</p>
+                    </div>
                 </div>
 
                 <div class="Clear small_text rubric">
-                    <label for="rating">Quality of Explanation of the Subject Matter</label>
+                    <label for="rubric2">Quality of Explanation of the Subject Matter</label>
                     <p>Applies to objects designed to explain subject matter. Used to rate how thoroughly subject matter is explained or otherwise revealed in the resource. Teachers might use object with whole class, small group, or individual student. Students might use this object to self-tutor.</p>
-                    <input name="rating" type="radio" class="hover-star required" title="Not Applicable" value="-1"/>
-                    <input name="rating" type="radio" class="hover-star required" title="Very Weak or No Value" value="0"/>
-                    <input name="rating" type="radio" class="hover-star required" title="Limited" value="1"/>
-                    <input name="rating" type="radio" class="hover-star required" title="Strong" value="2"/>
-                    <input name="rating" type="radio" class="hover-star required" title="Superior" value="3"/>
-                    <span id="rating_desc" class="rating_desc small_text"></span>
+                    <input name="rubric2" type="radio" class="hover-star required" title="Not Applicable" value="-1"/>
+                    <input name="rubric2" type="radio" class="hover-star required" title="Very Weak or No Value" value="0"/>
+                    <input name="rubric2" type="radio" class="hover-star required" title="Limited" value="1"/>
+                    <input name="rubric2" type="radio" class="hover-star required" title="Strong" value="2"/>
+                    <input name="rubric2" type="radio" class="hover-star required" title="Superior" value="3"/>
+                    <span id="rubric2_desc" class="rating_desc small_text"></span>
                     <div class="description hidden " data-score="3">
                         <p>An object is rated <em>superior</em> for content explanation if all of the following are true:</p>
                         <ul>
@@ -160,14 +164,14 @@
                 </div>
   
                 <div class="Clear small_text rubric">
-                    <label for="rating2">Utility of Materials Designed to Support Teaching</label>
+                    <label for="rubric3">Utility of Materials Designed to Support Teaching</label>
                     <p>Applies to objects designed to support teachers in planning or presenting subject matter. Primary user would be teacher. Evaluates the potential utility of an object for the majority of instructors at the intended grade level.</p>
-                    <input name="rating2" type="radio" class="hover-star required" title="Not Applicable" value="-1"/>
-                    <input name="rating2" type="radio" class="hover-star required" title="Very Weak or No Value" value="0"/>
-                    <input name="rating2" type="radio" class="hover-star required" title="Limited" value="1"/>
-                    <input name="rating2" type="radio" class="hover-star required" title="Strong" value="2"/>
-                    <input name="rating2" type="radio" class="hover-star required" title="Superior" value="3"/>
-                    <span id="rating2_desc" class="rating_desc small_text"></span>
+                    <input name="rubric3" type="radio" class="hover-star required" title="Not Applicable" value="-1"/>
+                    <input name="rubric3" type="radio" class="hover-star required" title="Very Weak or No Value" value="0"/>
+                    <input name="rubric3" type="radio" class="hover-star required" title="Limited" value="1"/>
+                    <input name="rubric3" type="radio" class="hover-star required" title="Strong" value="2"/>
+                    <input name="rubric3" type="radio" class="hover-star required" title="Superior" value="3"/>
+                    <span id="rubric3_desc" class="rating_desc small_text"></span>
                     <div class="description hidden " data-score="3">
                         <p>An object is rated <em>superior</em> if all of the following are true:</p>
                         <ul>
@@ -201,14 +205,14 @@
 
 
                 <div class="Clear small_text rubric">
-                    <label for="rating3">Quality of Assessments</label>
+                    <label for="rubric4">Quality of Assessments</label>
                     <p>Applies to objects designed to determine what a student knows before, during, or after a topic is taught. When many assessments are included in one object, the rubric is applied to the entire set.</p>
-                    <input name="rating3" type="radio" class="hover-star required" title="Not Applicable" value="-1"/>
-                    <input name="rating3" type="radio" class="hover-star required" title="Very Weak or No Value" value="0"/>
-                    <input name="rating3" type="radio" class="hover-star required" title="Limited" value="1"/>
-                    <input name="rating3" type="radio" class="hover-star required" title="Strong" value="2"/>
-                    <input name="rating3" type="radio" class="hover-star required" title="Superior" value="3"/>
-                    <span id="rating3_desc" class="rating_desc small_text"></span>
+                    <input name="rubric4" type="radio" class="hover-star required" title="Not Applicable" value="-1"/>
+                    <input name="rubric4" type="radio" class="hover-star required" title="Very Weak or No Value" value="0"/>
+                    <input name="rubric4" type="radio" class="hover-star required" title="Limited" value="1"/>
+                    <input name="rubric4" type="radio" class="hover-star required" title="Strong" value="2"/>
+                    <input name="rubric4" type="radio" class="hover-star required" title="Superior" value="3"/>
+                    <span id="rubric4_desc" class="rating_desc small_text"></span>
                     <div class="description hidden " data-score="3">
                         <p>An object is rated <em>superior</em> if all of the following are true:</p>
                         <ul>
@@ -235,14 +239,14 @@
 
 
                 <div class="Clear small_text rubric">
-                    <label for="rating4">Quality of Technological Interactivity</label>
+                    <label for="rubric5">Quality of Technological Interactivity</label>
                     <p>Applies to objects that have a technology-based interactive component. Used to rate degree and quality of an object's interactivity. Interactivity broadly means that the object responds to the user - the object behaves differently based on what the user does. This is not a rating for technology in general, but for technological interactivity.</p>
-                    <input name="rating4" type="radio" class="hover-star required" title="Not Applicable" value="-1"/>
-                    <input name="rating4" type="radio" class="hover-star required" title="Very Weak or No Value" value="0"/>
-                    <input name="rating4" type="radio" class="hover-star required" title="Limited" value="1"/>
-                    <input name="rating4" type="radio" class="hover-star required" title="Strong" value="2"/>
-                    <input name="rating4" type="radio" class="hover-star required" title="Superior" value="3"/>
-                    <span id="rating4_desc" class="rating_desc small_text"></span>
+                    <input name="rubric5" type="radio" class="hover-star required" title="Not Applicable" value="-1"/>
+                    <input name="rubric5" type="radio" class="hover-star required" title="Very Weak or No Value" value="0"/>
+                    <input name="rubric5" type="radio" class="hover-star required" title="Limited" value="1"/>
+                    <input name="rubric5" type="radio" class="hover-star required" title="Strong" value="2"/>
+                    <input name="rubric5" type="radio" class="hover-star required" title="Superior" value="3"/>
+                    <span id="rubric5_desc" class="rating_desc small_text"></span>
                     <div class="description hidden " data-score="3">
                         <p>An object, or interactive component of an object, is rated <em>superior</em> if all are true:</p>
                         <ul>
@@ -270,14 +274,14 @@
                 </div>
 
                 <div class="Clear small_text rubric">
-                    <label for="rating5">Quality of Instructional and Practice Exercises</label>
+                    <label for="rubric6">Quality of Instructional and Practice Exercises</label>
                     <p>Applies to objects that contain exercises to help foundational skills and procedures become routine. When concepts and skills are introduced, providing a sufficient number of exercises to support skill acquisition is critical. However when integrating skills in complex tasks, as few as one or two may be sufficient. A group of practice exercises is treated as a single object, with the rubric applied to the entire set.</p>
-                    <input name="rating5" type="radio" class="hover-star required" title="Not Applicable" value="-1"/>
-                    <input name="rating5" type="radio" class="hover-star required" title="Very Weak or No Value" value="0"/>
-                    <input name="rating5" type="radio" class="hover-star required" title="Limited" value="1"/>
-                    <input name="rating5" type="radio" class="hover-star required" title="Strong" value="2"/>
-                    <input name="rating5" type="radio" class="hover-star required" title="Superior" value="3"/>
-                    <span id="rating5_desc" class="rating_desc small_text"></span>
+                    <input name="rubric6" type="radio" class="hover-star required" title="Not Applicable" value="-1"/>
+                    <input name="rubric6" type="radio" class="hover-star required" title="Very Weak or No Value" value="0"/>
+                    <input name="rubric6" type="radio" class="hover-star required" title="Limited" value="1"/>
+                    <input name="rubric6" type="radio" class="hover-star required" title="Strong" value="2"/>
+                    <input name="rubric6" type="radio" class="hover-star required" title="Superior" value="3"/>
+                    <span id="rubric6_desc" class="rating_desc small_text"></span>
                     <div class="description hidden " data-score="3">
                         <p>An object is rated <em>superior</em> if <em>ALL</em> of the following are true:</p>
                         <ul>
@@ -303,14 +307,14 @@
 
 
                 <div class="Clear small_text rubric">
-                    <label for="rating6">Opportunities for Deeper Learning</label>
+                    <label for="rubric7">Opportunities for Deeper Learning</label>
                     <p>Applies to objects that engage learners to: Think critically and solve complex problems. Reason abstractly. Work collaboratively. Learn how to learn. Communicate effectively. Construct viable arguments and critique the reasoning of others. Apply discrete knowledge and skills to real-world situations. Construct, use, or analyze models.</p>
-                    <input name="rating6" type="radio" class="hover-star required" title="Not Applicable" value="-1"/>
-                    <input name="rating6" type="radio" class="hover-star required" title="Very Weak or No Value" value="0"/>
-                    <input name="rating6" type="radio" class="hover-star required" title="Limited" value="1"/>
-                    <input name="rating6" type="radio" class="hover-star required" title="Strong" value="2"/>
-                    <input name="rating6" type="radio" class="hover-star required" title="Superior" value="3"/>
-                    <span id="rating6_desc" class="rating_desc small_text"></span>
+                    <input name="rubric7" type="radio" class="hover-star required" title="Not Applicable" value="-1"/>
+                    <input name="rubric7" type="radio" class="hover-star required" title="Very Weak or No Value" value="0"/>
+                    <input name="rubric7" type="radio" class="hover-star required" title="Limited" value="1"/>
+                    <input name="rubric7" type="radio" class="hover-star required" title="Strong" value="2"/>
+                    <input name="rubric7" type="radio" class="hover-star required" title="Superior" value="3"/>
+                    <span id="rubric7_desc" class="rating_desc small_text"></span>
                     <div class="description hidden " data-score="3">
                         <p>An object is rated <em>superior</em> when <em>ALL</em> the following are true:</p>
                         <ul>
@@ -338,7 +342,7 @@
                 <button class="next" data="2">Next</button>
             </div>
 
-            <h3><a href="#">Tags &amp; Comments</a></h3>
+            <h3 id="acc-tags"><a href="#">Tags &amp; Comments</a></h3>
             <div class="small_text comments">
                 
                 <p>
@@ -355,7 +359,7 @@
                 <button class="next" data="3">Next</button>
             </div>
 
-            <h3><a href="#">Publish to Learning Registry</a></h3>
+            <h3 id="acc-publish"><a href="#">Publish to Learning Registry</a></h3>
             <div class="small_text publish">
                 <label>My Identity</label>
                 <div id="twitter_info" class="Clear"></div>
@@ -408,17 +412,17 @@
     {{#std_key}}
     <div class="Clear std-ratings">
         <div>{{#asn}}<em>{{asn}}</em><br/>{{/asn}}{{std_key}}</div>
-        <input name="{{std_id}}" type="radio" class="align-hover-star required" title="Very Weak" value="0"/>
-        <input name="{{std_id}}" type="radio" class="align-hover-star required" title="Limited" value="1"/>
-        <input name="{{std_id}}" type="radio" class="align-hover-star required" title="Strong" value="2"/>
-        <input name="{{std_id}}" type="radio" class="align-hover-star required" title="Superior" value="3"/>
-        <span id="{{std_id}}_desc" class="rating_desc small_text"></span>
+        <input name="rating_{{std_id}}" type="radio" class="align-hover-star required" title="Not Applicable" value="-1" data-asn="{{std_id}}"/>
+        <input name="rating_{{std_id}}" type="radio" class="align-hover-star required" title="Very Weak" value="0" data-asn="{{std_id}}"/>
+        <input name="rating_{{std_id}}" type="radio" class="align-hover-star required" title="Limited" value="1" data-asn="{{std_id}}"/>
+        <input name="rating_{{std_id}}" type="radio" class="align-hover-star required" title="Strong" value="2" data-asn="{{std_id}}"/>
+        <input name="rating_{{std_id}}" type="radio" class="align-hover-star required" title="Superior" value="3" data-asn="{{std_id}}"/>
+        <span id="rating_{{std_id}}_desc" class="rating_desc small_text"></span>
     </div>
     {{/std_key}}
 </script>
 
 <script type="text/x-mustache" id="must_social_stds">
-
     <div class="matched_stds other Clear">
         <h4>Community Matched Standards</h4>
         <table>  
@@ -429,8 +433,6 @@
             </tbody>
         </table>
     </div>
-    
-
 </script>
 
 <script type="text/x-mustache" id="must_social_rubrics">

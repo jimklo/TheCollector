@@ -15,16 +15,21 @@ define(["common", "jquery", "pie", "rubric"],function(common, $, pie, rubric){
 
     function setWhatOthersSay(url) {
         var data = common.fetchJSON(url);
-        
-        common.render('must_social_stds', data, function(html){
-            $("#what-others-say .socialstds").html(html);
-        });
+        if (!!data) {
+            common.render('must_social_stds', data, function(html){
+                $("#what-others-say .socialstds").html(html);
+            });
 
-        data.rtitle = render_title;
-        common.render('must_social_rubrics', data, function(html){
-            $("#what-others-say .socialrubric").html(html);
-            pie.draw();
-        });
+            data.rtitle = render_title;
+            common.render('must_social_rubrics', data, function(html){
+                $("#what-others-say .socialrubric").html(html);
+                pie.draw();
+            });
+
+            $("#tabs").tabs("option", "disabled", []);
+        } else {
+            $("#tabs").tabs("option", "disabled", [1]);
+        }
     }
 
 
