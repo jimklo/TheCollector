@@ -11,12 +11,10 @@ require.config(
             'oauth': 'libs/oauth',
             'sha1': 'libs/sha1',
             'underscore': 'libs/underscore-min',
-            'Math': 'mcc',
-            'Literacy': 'ecc',
             'core-stds': 'core-stds'
         }
     });
-require(['jquery', 'jquery-ui', 'jquery.rating', 'jquery.jstree', 'jquery.tagsinput', 'common', 'Math', 'Literacy', 'lr', 'social', 'others-say', 'state-stds', 'core-stds'], function($) {
+require(['jquery', 'jquery-ui', 'jquery.rating', 'jquery.jstree', 'jquery.tagsinput', 'common', 'lr', 'social', 'others-say', 'state-stds', 'core-stds'], function($) {
 
     var common = require('common'),
         others = require("others-say"),

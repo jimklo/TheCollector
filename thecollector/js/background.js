@@ -9,9 +9,7 @@ require.config(
             'oauth-simple': 'libs/oauth-simple',
             'oauth': 'libs/oauth',
             'sha1': 'libs/sha1',
-            'underscore': 'libs/underscore-min',
-            'Math': 'mcc',
-            'Literacy': 'ecc'
+            'underscore': 'libs/underscore-min'
         }
 
     });
