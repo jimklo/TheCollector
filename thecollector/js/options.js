@@ -3,10 +3,10 @@ require.config(
         paths: {
             'jquery-ui': 'libs/jquery-ui-1.8.21.custom.min',
             'jquery.jstree': 'libs/jquery.jstree',
-            'jquery.rating': 'libs/jquery.rating.pack',
+            'jquery.rating': 'libs/jquery.rating',
             'jquery.tagsinput': 'libs/jquery.tagsinput.min',
             'moment': 'libs/moment.min',
-            'mustache': 'libs/mustache',
+            'mustache': 'libs/mustache-chrome',
             'oauth-simple': 'libs/oauth-simple',
             'oauth': 'libs/oauth',
             'sha1': 'libs/sha1',
@@ -80,7 +80,7 @@ require(['common', 'jquery', 'jquery.tagsinput', 'jquery-ui'], function(common, 
 
     // Restores select box state to saved value from localStorage.
     function restore_oauth() {
-        var options = JSON.parse(localStorage["oauth"]);
+        var options = common.fetchJSON("oauth");
         if (!options) {
             return;
         }
@@ -93,7 +93,7 @@ require(['common', 'jquery', 'jquery.tagsinput', 'jquery-ui'], function(common, 
     }
 
     function restore_bio() {
-        var bio = JSON.parse(localStorage["bio"]);
+        var bio = common.fetchJSON("bio");
         if(!bio) {
             return;
         }

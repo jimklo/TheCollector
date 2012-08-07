@@ -3,9 +3,9 @@ require.config(
         paths: {
             'jquery-ui': 'libs/jquery-ui-1.8.21.custom.min',
             'jquery.jstree': 'libs/jquery.jstree',
-            'jquery.rating': 'libs/jquery.rating.pack',
+            'jquery.rating': 'libs/jquery.rating',
             'moment': 'libs/moment.min',
-            'mustache': 'libs/mustache',
+            'mustache': 'libs/mustache-chrome',
             'oauth-simple': 'libs/oauth-simple',
             'oauth': 'libs/oauth',
             'sha1': 'libs/sha1',

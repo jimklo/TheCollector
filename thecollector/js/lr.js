@@ -107,7 +107,7 @@ define(['require', 'common', 'sha1', 'oauth', 'jquery', 'underscore', 'paradata'
             var bio = common.fetchJSON('bio');
             var oauth_data = common.fetchJSON('oauth');
 
-            if (!!bio.twitter) {
+            if (!!bio && !!bio.twitter) {
                 bio.twitter_info = common.fetchJSON('twitter');
             }
             var tags = ["TheCollector"]

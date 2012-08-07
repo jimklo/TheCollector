@@ -54,6 +54,10 @@ var mt_classify = function() {
 }
 
 var addMustacheWax = function(data) {
+    if (data === null || data === undefined) {
+        data = {};
+    }
+
     if (!data.capitaled) {
         data.capitaled = mt_capitalED;
     }

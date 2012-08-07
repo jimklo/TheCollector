@@ -3,10 +3,10 @@ require.config(
         paths: {
             'jquery-ui': 'libs/jquery-ui-1.8.21.custom.min',
             'jquery.jstree': 'libs/jquery.jstree',
-            'jquery.rating': 'libs/jquery.rating.pack',
+            'jquery.rating': 'libs/jquery.rating',
             'jquery.tagsinput': 'libs/jquery.tagsinput.min',
             'moment': 'libs/moment.min',
-            'mustache': 'libs/mustache',
+            'mustache': 'libs/mustache-chrome',
             'oauth-simple': 'libs/oauth-simple',
             'oauth': 'libs/oauth',
             'sha1': 'libs/sha1',
@@ -329,36 +329,7 @@ require(['jquery', 'jquery-ui', 'jquery.rating', 'jquery.jstree', 'jquery.tagsin
     }
 
     
-    function restore_bio() {
-        var bio = common.fetchJSON("bio");
-        $('#tos').attr("checked", !!bio.tos_agreed?"checked":undefined);
-        common.render("must_bio", bio, function(html) {
-            $("#bio").html(html);
-        });
-    }
-    restore_bio();
 
-    function restore_twitter() {
-        function setTwitter(someTwit) {
-            common.render("twitter_user", someTwit, function(html){
-                $('#twitter_info').html(html);
-                $('#twitter_info').show();
-            }); 
-        }
-
-        if (bgPage.twitter.hasUserInfo()) {
-            // $('.sign_in_with_twitter').hide();
-            // $(".sign_off_with_twitter").show();
-            bgPage.twitter.fetchUserInfo(function(twit) {
-                setTwitter(twit);  
-            }, true);
-        } else {
-            // $('.sign_in_with_twitter').show();
-            // $(".sign_off_with_twitter").hide();
-            setTwitter({});
-        }
-    }
-    restore_twitter();
 
 
 
@@ -436,6 +407,37 @@ require(['jquery', 'jquery-ui', 'jquery.rating', 'jquery.jstree', 'jquery.tagsin
         change: function(event, ui){
                 ui.newHeader[0].scrollIntoView();
         }});
+
+    function restore_bio() {
+        var bio = common.fetchJSON("bio");
+        $('#tos').attr("checked", !!bio && !!bio.tos_agreed?"checked":undefined);
+        common.render("must_bio", bio, function(html) {
+            $("#bio").html(html);
+        });
+    }
+    restore_bio();
+
+    function restore_twitter() {
+        function setTwitter(someTwit) {
+            common.render("twitter_user", someTwit, function(html){
+                $('#twitter_info').html(html);
+                $('#twitter_info').show();
+            }); 
+        }
+
+        if (bgPage.twitter.hasUserInfo()) {
+            // $('.sign_in_with_twitter').hide();
+            // $(".sign_off_with_twitter").show();
+            bgPage.twitter.fetchUserInfo(function(twit) {
+                setTwitter(twit);  
+            }, true);
+        } else {
+            // $('.sign_in_with_twitter').show();
+            // $(".sign_off_with_twitter").hide();
+            setTwitter({});
+        }
+    }
+    restore_twitter();
 
     var lr = require("lr");
 
