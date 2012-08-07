@@ -3,7 +3,16 @@ var fs = require("fs"),
     $ = require("jquery"),
     request = require("request"),
     et = require("elementtree"),
-    _ = require("underscore");
+    _ = require("underscore"),
+    jsp = require("uglify-js").parser,
+    pro = require("uglify-js").uglify;
+
+var compress = function(orig_code) {
+    var ast = jsp.parse(orig_code); // parse code and get the initial AST
+    ast = pro.ast_mangle(ast); // get a new AST with mangled names
+    ast = pro.ast_squeeze(ast); // get an AST with compression optimizations
+    return pro.gen_code(ast); // compressed code here
+}
 
 var fetchStandard = function(std) {
 
@@ -29,7 +38,7 @@ var fetchStandard = function(std) {
     request(man_url, function (error, response, body) {
         try {
             var big = JSON.parse(body);
-            var small = JSON.stringify(trimTree(big, undefined, corstd));
+            var small = compress(JSON.stringify(trimTree(big, undefined, corstd)));
 
             console.log("Writing "+path);
             fs.writeFile(path, small);
@@ -190,7 +199,7 @@ request("http://asn.jesandco.org/api/1/jurisdictions?status=published&class=U.S.
                     num_jurisdictions--;
                     if (num_jurisdictions == 0) {
                         console.log("writing file.");
-                        fs.writeFile("../thecollector/js/standards.json", JSON.stringify(standards));
+                        fs.writeFile("../thecollector/js/standards.json", compress(JSON.stringify(standards)));
                     }
 
                 });
