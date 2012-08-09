@@ -428,7 +428,14 @@
         <table>  
             <tbody>
             {{#standards}}
-                <tr><th scope="row">{{name}}</th><td>{{count}}</td>
+                <tr>
+                    <th scope="row">
+                    {{#jurisdiction}}{{jurisdiction}}<br/>{{/jurisdiction}}
+                    {{#standard}}{{standard}}<br/>{{/standard}}
+                    {{#dotNotation}}{{dotNotation}}<br/>{{/dotNotation}}
+                    {{#detail}}{{detail}}<br/>{{/detail}}
+                    </th>
+                    <td>{{count}}</td>
             {{/standards}}
             </tbody>
         </table>
@@ -438,7 +445,9 @@
 <script type="text/x-mustache" id="must_social_rubrics">
 {{#rubrics}}
     <div class="rubric_chart other Clear">
-        <h4>{{#rtitle}}{{name}}{{/rtitle}}</h4>
+        <h4>{{#title}}{{#rubric}}{{rubric}}:{{/rubric}} {{title}}{{/title}}</h4>
+        {{#description}}<div>{{description}}</div>{{/description}}
+        {{^stds}}
         <table class="piedata">
             <tbody>
             {{#ratings}}  
@@ -450,6 +459,26 @@
             </tbody>
         </table>
         <div class="pie"></div>
+        {{/stds}}
+        {{#stds}}
+        <div class="Clear">
+        <div class="piedesc">
+            <div class="piehead">{{#notcc}}{{jurisdiction}}{{/notcc}} {{standard}}{{#dotNotation}}: {{dotNotation}}{{/dotNotation}}</div>
+            <div class="piedetail">{{detail}}</div>
+        </div>
+        <table class="piedata">
+            <tbody>
+            {{#ratings}}  
+            <tr>
+                <th scope="row">{{name}}</th>
+                <td>{{count}}</td>
+            </tr>
+            {{/ratings}}
+            </tbody>
+        </table>
+        <div class="pie"></div>
+        </div>
+        {{/stds}}
     </div>
 {{/rubrics}}
 </script>

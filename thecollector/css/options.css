@@ -1,13 +1,21 @@
 div.hero {
-    background-image:       url(../images/learning-registry-logo-ds.png);
+    background-image:       url(../images/collector-logo.png);
     background-repeat:      no-repeat;
     background-attachment:  fixed;
-    background-position:    left top;
-    height: 120px;
-    font: 48pt "Impact", Verdana, sans-serif;
-    padding-left: 300px;
-    /*color: #0D6DAB;*/
-    color: #6C6C6C;
+    background-position: 10px 10px;
+    height: 57px;
+    width: 280px;
+    float: left;
+}
+
+#status {
+    /*width: 100%;*/
+    height: 57px;
+    padding-left: 280px;
+    /*border: black 2px dotted;*/
+    font: 18pt "Impact", Verdana, sans-serif;
+    color: #6d6e71;
+    line-height: 57px;
 }
 
 input[type=checkbox] {
@@ -86,7 +94,3 @@ div.tabs {
 
 }
 
-#status {
-    width: 100%;
-    height: 50px;
-}

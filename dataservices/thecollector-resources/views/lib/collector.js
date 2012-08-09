@@ -1,6 +1,7 @@
 
 var sig_utils = require("views/lib/sig_utils");
 var moment = require("views/lib/moment-min");
+var _ = require("views/lib/underscore-min");
 
 
 exports.isCollectorDoc = function(doc) {
@@ -25,19 +26,38 @@ exports.getKeysForView = function(view, doc) {
         if (sig_utils.check_signature(doc)) {
             if (view === "discriminator-by-resource") {
                 var action = activity.verb.action;
-                if (action === "rated") {
-                    for (var i=0; i<activity.related.length; i++) {
-                        var rubric = activity.related[i];
-                        keys.push([action, rubric.objectType, rubric.id, activity.verb.measure.value]);
+                if (action === "rated" && !!activity.verb.context) {
+                    var ctx = activity.verb.context,
+                        key = [action, ctx.objectType, ctx.id, activity.verb.measure.value];
+
+                    if (!!activity.related && activity.related.length > 0) {
+                        _.each(activity.related, function(element, idx) {
+                            if (!!element.objectType && element.objectType === "academic standard") {
+                
+                                if (!!element.description && _.isArray(element.description)) {
+                                    keys.push(key.concat([element.id || ""].concat(element.description)));
+                                }
+                            }
+                        });
+
+                    } else {
+                        keys.push(key);                    
                     }
+
                 } else if (action === "matched") {
                     for (var i=0; i<activity.related.length; i++) {
-                        var std = activity.related[i];
-                        keys.push([action, std.objectType, std.id, std.description[0], std.description[1]]);
+                        var std = activity.related[i],
+                            key = [action, std.objectType, std.id];
+                        if (!!std.description) {
+                            key = key.concat(std.description);
+                        }
+                        keys.push(key);
                     }
                 }
                 
             }
+        } else {
+            log("!!!!!!!!!!!!!!! bad signature !!!!!!!!!!!!!!!!!");
         }
 
         return keys;

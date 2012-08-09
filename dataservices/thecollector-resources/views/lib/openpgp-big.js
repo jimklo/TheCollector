@@ -1,27 +1,5 @@
-// TheCollector - a Learning Registry Paradata capture plugin for Chrome browser
-// Copyright 2012 SRI International
- 
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
- 
-//    http://www.apache.org/licenses/LICENSE-2.0
- 
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
- 
- 
-// This project has been funded at least or in part with Federal funds from 
-// the U.S. Department of Education under Contract Number ED-04-CO-0040/0010. 
-// The content of this publication does not necessarily reflect the views or policies 
-// of the U.S. Department of Education nor does mention of trade names, commercial 
-// products, or organizations imply endorsement by the U.S. Government.
-
 // make check for navigator properties not fail.
-var navigator = navigator || {};
+var navigator = {};
 
 
 // support some basic HTML5 localStorage operations
@@ -44,7 +22,7 @@ var window = window || {};
 window.localStorage = window.localStorage || _localStorage();
 
 // support some minimal jquery need that's used for encoding messages for display in openpgp.js
-function jQuery(foo) {
+function _$(foo) {
 
     this.text = function(txt) {
         this._txt = txt;
@@ -57,14 +35,18 @@ function jQuery(foo) {
 
     return this;
 }
-var $ = jQuery;
+var $ = _$;
 
 // support undefined function in from openpgp.js
-function showMessages(text) {
+var showMessages = function(text) {
     // print(text);
 }
 
-// GPG4Browsers - An OpenPGP implementation in javascript
+if (!!exports) {
+    exports.setShowMessages = function(fn) {
+        showMessages = fn;
+    };
+}// GPG4Browsers - An OpenPGP implementation in javascript
 // Copyright (C) 2011 Recurity Labs GmbH
 // 
 // This library is free software; you can redistribute it and/or
@@ -13862,6 +13844,16 @@ function openpgp_type_s2k() {
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
+var messageFormat = function(template, str) {
+	return template.replace(/\{\{\{message\}\}\}/, str.replace(/\n/, "<br/>"));
+}
+
+if (!!exports) {
+	exports.setMessageFormat = function(fn){
+		messageFormat = fn;
+	}
+}
+
 var Util = function() {
 
     this.emailRegEx = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
@@ -14031,7 +14023,7 @@ var Util = function() {
 		if (openpgp.config.debug) {
 			str = str + this.hexstrdump(strToHex);
 			str = openpgp_encoding_html_encode(str);
-			showMessages("<tt><p style=\"background-color: #ffffff; width: 652px; word-break: break-word; padding: 5px; border-bottom: 1px solid black;\">"+str.replace(/\n/g,"<br>")+"</p></tt>");
+			showMessages(messageFormat("<tt><p style=\"background-color: #ffffff; width: 652px; word-break: break-word; padding: 5px; border-bottom: 1px solid black;\">{{{message}}}</p></tt>", str));
 		}
 	};
 	
@@ -14045,7 +14037,7 @@ var Util = function() {
 	 */
 	this.print_error = function(str) {
 		str = openpgp_encoding_html_encode(str);
-		showMessages("<p style=\"font-size: 80%; background-color: #FF8888; margin:0; width: 652px; word-break: break-word; padding: 5px; border-bottom: 1px solid black;\"><span style=\"color: #888;\"><b>ERROR:</b></span>	"+str.replace(/\n/g,"<br>")+"</p>");
+		showMessages(messageFormat("<p style=\"font-size: 80%; background-color: #FF8888; margin:0; width: 652px; word-break: break-word; padding: 5px; border-bottom: 1px solid black;\"><span style=\"color: #888;\"><b>ERROR:</b></span>{{{message}}}</p>", str));
 	};
 	
 	/**
@@ -14058,12 +14050,12 @@ var Util = function() {
 	 */
 	this.print_info = function(str) {
 		str = openpgp_encoding_html_encode(str);
-		showMessages("<p style=\"font-size: 80%; background-color: #88FF88; margin:0; width: 652px; word-break: break-word; padding: 5px; border-bottom: 1px solid black;\"><span style=\"color: #888;\"><b>INFO:</b></span>	"+str.replace(/\n/g,"<br>")+"</p>");
+		showMessages(messageFormat("<p style=\"font-size: 80%; background-color: #88FF88; margin:0; width: 652px; word-break: break-word; padding: 5px; border-bottom: 1px solid black;\"><span style=\"color: #888;\"><b>INFO:</b></span>{{{message}}}</p>", str));
 	};
 	
 	this.print_warning = function(str) {
 		str = openpgp_encoding_html_encode(str);
-		showMessages("<p style=\"font-size: 80%; background-color: #FFAA88; margin:0; width: 652px; word-break: break-word; padding: 5px; border-bottom: 1px solid black;\"><span style=\"color: #888;\"><b>WARNING:</b></span>	"+str.replace(/\n/g,"<br>")+"</p>");
+		showMessages(messageFormat("<p style=\"font-size: 80%; background-color: #FFAA88; margin:0; width: 652px; word-break: break-word; padding: 5px; border-bottom: 1px solid black;\"><span style=\"color: #888;\"><b>WARNING:</b></span>{{{message}}}</p>", str));
 	};
 	
 	this.getLeftNBits = function (string, bitcount) {

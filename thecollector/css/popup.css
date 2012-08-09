@@ -178,3 +178,12 @@ table.piedata {
     background-color: white;
     border-color: white;
 }
+
+.piedesc .piehead {
+    font-style: oblique;
+    font-weight: bold;
+}
+
+.rubric_chart {
+    font-size: 10pt;
+}

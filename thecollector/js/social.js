@@ -1,7 +1,8 @@
-define(["require", "jquery", "common", "underscore", "mustache", "moment"],function(require, $, common, _){
+define(["require", "jquery", "common", "underscore", "mustache", "moment", "rubric"],function(require, $, common, _){
     
     require('mustache');
     require('moment');
+    var rubric_util = require('rubric');
 
     var oauth_info = common.fetchJSON('oauth');
 
@@ -32,38 +33,88 @@ define(["require", "jquery", "common", "underscore", "mustache", "moment"],funct
         return str;
     }
 
+    function oerdetail(rubric) {
+        var detail = {
+            title: rubric
+        }
+        _.each(_.keys(rubric_util), function(key) {
+            if (rubric_util[key].rubric === rubric) {
+                detail = rubric_util[key];
+            }
+        });
+        return detail;
+    }
+
     function processDataServiceResponse(response, url){
         var docs = response.documents;
         var url_data = {
             standards: {},
             rubrics: {},
             date: new Date().toISOString()
-        }
+        };
+
         for (var i in docs) {
             var data = docs[i].result_data;
             var num_raw = docs[i].resource_data.length;
             if (data.discriminator[0]==="matched" && data.discriminator[1]==="academic standard") {
-                url_data.standards[data.discriminator[2]] = url_data.standards[data.discriminator[2]] || 0
-                url_data.standards[data.discriminator[2]] += num_raw;
+                url_data.standards[data.discriminator[2]] = url_data.standards[data.discriminator[2]] 
+                || { 
+                    id: data.discriminator[2] || "",
+                    jurisdiction: data.discriminator[3] || "",
+                    standard: data.discriminator[4] || "",
+                    dotNotation: data.discriminator[5] || "",
+                    detail: data.discriminator[6] || "",
+                    count: 0
+                };
+                url_data.standards[data.discriminator[2]].count += num_raw;
             }
-            else if (data.discriminator[0]==="rated" && data.discriminator[1]==="OER Rubric") {
-                url_data.rubrics[data.discriminator[2]] = url_data.rubrics[data.discriminator[2]] || {"-1":0,"0":0,"1":0,"2":0,"3":0};
-                url_data.rubrics[data.discriminator[2]][String(data.discriminator[3])] =  url_data.rubrics[data.discriminator[2]][String(data.discriminator[3])] || 0;
-                url_data.rubrics[data.discriminator[2]][String(data.discriminator[3])] += num_raw;
+            else if (data.discriminator[0]==="rated" && data.discriminator[1].match(/Achieve OER Rubric/)) {
+
+                if (data.discriminator.length > 4) {
+                    url_data.rubrics[data.discriminator[1]] = url_data.rubrics[data.discriminator[1]] || {};
+                    url_data.rubrics[data.discriminator[1]].stds = url_data.rubrics[data.discriminator[1]].stds || {};
+                    url_data.rubrics[data.discriminator[1]].stds[data.discriminator[4]] = {
+                        id: data.discriminator[4] || "",
+                        jurisdiction: data.discriminator[5] || "",
+                        standard: data.discriminator[6] || "",
+                        dotNotation: data.discriminator[7] || "",
+                        detail: data.discriminator[8] || ""
+                    };
+                    url_data.rubrics[data.discriminator[1]].stds[data.discriminator[4]].ratings = url_data.rubrics[data.discriminator[1]].stds[data.discriminator[4]].ratings || {"-1":0,"0":0,"1":0,"2":0,"3":0};
+                    url_data.rubrics[data.discriminator[1]].stds[data.discriminator[4]].ratings[String(data.discriminator[3])] = url_data.rubrics[data.discriminator[1]].stds[data.discriminator[4]].ratings[String(data.discriminator[3])] || 0;
+                    url_data.rubrics[data.discriminator[1]].stds[data.discriminator[4]].ratings[String(data.discriminator[3])] += num_raw;
+                } else {
+                    url_data.rubrics[data.discriminator[1]] = url_data.rubrics[data.discriminator[1]] || {ratings: {"-1":0,"0":0,"1":0,"2":0,"3":0}};
+                    url_data.rubrics[data.discriminator[1]].ratings[String(data.discriminator[3])] =  url_data.rubrics[data.discriminator[1]].ratings[String(data.discriminator[3])] || 0;
+                    url_data.rubrics[data.discriminator[1]].ratings[String(data.discriminator[3])] += num_raw;
+                }
             }
         }
 
 
         url_data.standards = _.map(_.keys(url_data.standards).sort(), function(key) {
-            return { name: key, count: url_data.standards[key] };
+            return url_data.standards[key];
         });
         url_data.rubrics = _.map(_.keys(url_data.rubrics).sort(), function(key) {
 
-            var key_ratings = _.map(_.keys(url_data.rubrics[key]).sort(), function(rating) {
-                return { name: oerrating(rating), count: url_data.rubrics[key][rating] };
-            });
+            var detail = oerdetail(key);
 
-            return { name: key, ratings: key_ratings };
+            if (!!url_data.rubrics[key].stds) {
+                detail.stds = _.chain(url_data.rubrics[key].stds)
+                    .values()
+                    .sortBy(function (s) {
+                        s.ratings = _.map(_.keys(s.ratings).sort(), function(rating) {
+                            return { name: oerrating(rating), count: s.ratings[rating] };
+                        });
+                        return s.jurisdiction+s.standard+s.dotNotation+s.detail;
+                    }).value();
+            } else {
+                var key_ratings = _.map(_.keys(url_data.rubrics[key].ratings).sort(), function(rating) {
+                    return { name: oerrating(rating), count: url_data.rubrics[key].ratings[rating] };
+                });
+                detail.ratings = key_ratings;
+            }
+            return detail;
         });
         common.putJSON(url, url_data);
     }
