@@ -65,9 +65,12 @@ require(['common', 'jquery', 'jquery.tagsinput', 'jquery-ui'], function(common, 
         if (bgPage.twitter.hasUserInfo()) {
             restore_twitter();
         } else {
-            bgPage.oauth.authorize(function(token, token_secret) {
-                bgPage.twitter.fetchUserInfo(function(){
-                    restore_twitter();   
+            chrome.tabs.getCurrent(function(currentTab) {
+                bgPage.oauth.authorize(function(token, token_secret) {
+                    bgPage.twitter.fetchUserInfo(function(){
+                        restore_twitter();  
+                        chrome.tabs.update(currentTab.tabId, {active: true});
+                    });
                 });
             });
         }
@@ -75,6 +78,9 @@ require(['common', 'jquery', 'jquery.tagsinput', 'jquery-ui'], function(common, 
 
     function deauthorize_twitter() {
         bgPage.logout();
+        var bio = common.fetchJSON("bio");
+        delete bio.twitter;
+        common.putJSON("bio", bio);
         restore_twitter();
     }
 
@@ -119,6 +125,11 @@ require(['common', 'jquery', 'jquery.tagsinput', 'jquery-ui'], function(common, 
             $('.sign_in_with_twitter').hide();
             $(".sign_off_with_twitter").show();
             var twit = bgPage.twitter.getUserInfo();
+            if (!!twit && twit.screen_name) {
+                var bio = common.fetchJSON("bio");
+                bio.twitter = twit.screen_name;
+                common.putJSON("bio", bio);
+            }
             setTwitter(twit);     
         } else {
             $('.sign_in_with_twitter').show();

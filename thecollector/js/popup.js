@@ -26,6 +26,66 @@ require(['jquery', 'jquery-ui', 'jquery.rating', 'jquery.jstree', 'jquery.tagsin
 
     // $("input[name=rating]").rating();
 
+    function check_setup() {
+        var oauth = common.fetchJSON("oauth");
+        if (!oauth || !(!!oauth.node_url && 
+            !!oauth.consumer_key && !!oauth.consumer_secret &&
+            !!oauth.token && oauth.token_secret)) {
+            var opts = {
+                url: chrome.extension.getURL("options.html#tabs-oauth"),
+                active: true
+            };
+            chrome.tabs.create(opts);
+            window.close();
+            
+        }
+    }
+    check_setup();
+
+    function restore_bio() {
+        var bio = common.fetchJSON("bio");
+        $('#tos').attr("checked", !!bio && !!bio.tos_agreed?"checked":undefined);
+        common.render("must_bio", bio, function(html) {
+            $("#bio").html(html);
+        });
+        console.log(bgPage.twitter.hasUserInfo());
+        if (!bio || (!bio.occupation && !bio.occupation_other && 
+                !bio.grade && !bio.grade_other && 
+                !bio.subject && !bio.twitter)) {
+            var opts = {
+                url: chrome.extension.getURL("options.html#tabs-about-you"),
+                active: true
+            };
+            chrome.tabs.create(opts);
+        }
+    }
+    restore_bio();
+
+    function restore_twitter() {
+        function setTwitter(someTwit) {
+            common.render("twitter_user", someTwit, function(html){
+                $('#twitter_info').html(html);
+                $('#twitter_info').show();
+            }); 
+        }
+
+        if (bgPage.twitter.hasUserInfo()) {
+            // $('.sign_in_with_twitter').hide();
+            // $(".sign_off_with_twitter").show();
+            bgPage.twitter.fetchUserInfo(function(twit) {
+                setTwitter(twit);  
+            }, true);
+        } else {
+            // $('.sign_in_with_twitter').show();
+            // $(".sign_off_with_twitter").hide();
+            setTwitter({});
+        }
+    }
+    restore_twitter();
+
+
+
+
 
     chrome.tabs.getSelected(null, function(curtab) {
         if (curtab.url === curtab.title) {
@@ -408,36 +468,7 @@ require(['jquery', 'jquery-ui', 'jquery.rating', 'jquery.jstree', 'jquery.tagsin
                 ui.newHeader[0].scrollIntoView();
         }});
 
-    function restore_bio() {
-        var bio = common.fetchJSON("bio");
-        $('#tos').attr("checked", !!bio && !!bio.tos_agreed?"checked":undefined);
-        common.render("must_bio", bio, function(html) {
-            $("#bio").html(html);
-        });
-    }
-    restore_bio();
 
-    function restore_twitter() {
-        function setTwitter(someTwit) {
-            common.render("twitter_user", someTwit, function(html){
-                $('#twitter_info').html(html);
-                $('#twitter_info').show();
-            }); 
-        }
-
-        if (bgPage.twitter.hasUserInfo()) {
-            // $('.sign_in_with_twitter').hide();
-            // $(".sign_off_with_twitter").show();
-            bgPage.twitter.fetchUserInfo(function(twit) {
-                setTwitter(twit);  
-            }, true);
-        } else {
-            // $('.sign_in_with_twitter').show();
-            // $(".sign_off_with_twitter").hide();
-            setTwitter({});
-        }
-    }
-    restore_twitter();
 
     var lr = require("lr");
 
