@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "Learning Registry Collector",
-    "version": "0.2",
+    "version": "0.4",
     "description": "A Tool to Share Opinions in the Learning Registry.",
     "background": {
         "page":"background.html"

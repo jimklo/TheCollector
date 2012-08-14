@@ -11,7 +11,7 @@ exports.views = {
             try {
                 if (doc.doc_type == "resource_data" && doc.resource_data && doc.resource_locator && doc.node_timestamp) {
                     var nodeTimestamp = collector.convertDateToSeconds(doc);
-                    if (collector.isCollectorDoc(doc, ['0.1','0.2'])) {
+                    if (collector.isCollectorDoc(doc, collector.collectorVersions)) {
                         var discriminators = collector.getKeysForView("discriminator-by-resource", doc);
                         for (var i=0; i<discriminators.length; i++) {
                             emit([doc.resource_locator, discriminators[i]], nodeTimestamp);                         
@@ -31,7 +31,7 @@ exports.views = {
             var collector = require('views/lib/collector');
             try {
                 if (doc.doc_type == "resource_data" && doc.resource_data && doc.resource_locator && doc.node_timestamp) {
-                    if (collector.isCollectorDoc(doc, ['0.1','0.2'])) {
+                    if (collector.isCollectorDoc(doc, collector.collectorVersions)) {
                         var nodeTimestamp = collector.getTimestampForDoc(doc);
                         var discriminators = collector.getKeysForView("discriminator-by-resource", doc);
                         for (var i=0; i<discriminators.length; i++) {
@@ -51,7 +51,7 @@ exports.views = {
             var collector = require('views/lib/collector');
             try {
                 if (doc.doc_type == "resource_data" && doc.resource_data && doc.resource_locator && doc.node_timestamp &&
-                    collector.isCollectorDoc(doc, ['0.1','0.2'])) {
+                    collector.isCollectorDoc(doc, collector.collectorVersions)) {
                     var nodeTimestamp = collector.getTimestampForDoc(doc);
                     var discriminators = collector.getKeysForView("discriminator-by-resource", doc);
                     for (var i=0; i<discriminators.length; i++) {
@@ -68,7 +68,7 @@ exports.views = {
         "map": function(doc) {
             var collector = require('views/lib/collector');
             if (doc.doc_type == "resource_data" && doc.resource_data && doc.resource_locator && doc.node_timestamp &&
-                collector.isCollectorDoc(doc, ['0.1','0.2'])) {
+                collector.isCollectorDoc(doc, collector.collectorVersions)) {
                 var nodeTimestamp = collector.getTimestampForDoc(doc);
                 var discriminators = collector.getKeysForView("discriminator-by-resource", doc);
                 for (var i=0; i<discriminators.length; i++) {
@@ -82,7 +82,7 @@ exports.views = {
         "map": function(doc) {
             var collector = require('views/lib/collector');
             if (doc.doc_type == "resource_data" && doc.resource_data && doc.resource_locator && doc.node_timestamp &&
-                collector.isCollectorDoc(doc, ['0.1','0.2'])) {
+                collector.isCollectorDoc(doc, collector.collectorVersions)) {
                 var nodeTimestamp = collector.getTimestampForDoc(doc);
                 var discriminators = collector.getKeysForView("discriminator-by-resource", doc);
                 for (var i=0; i<discriminators.length; i++) {
@@ -95,7 +95,7 @@ exports.views = {
         "map": function(doc) {
             var collector = require('views/lib/collector');
             if (doc.doc_type == "resource_data" && doc.resource_data && doc.resource_locator && doc.node_timestamp &&
-                collector.isCollectorDoc(doc, ['0.1','0.2'])) {
+                collector.isCollectorDoc(doc, collector.collectorVersions)) {
                 var nodeTimestamp = collector.getTimestampForDoc(doc);
                 var discriminators = collector.getKeysForView("discriminator-by-resource", doc);
                 if (discriminators.length > 0) {

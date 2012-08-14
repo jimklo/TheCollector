@@ -278,7 +278,11 @@ require(['jquery', 'jquery-ui', 'jquery.rating', 'jquery.jstree', 'jquery.tagsin
 
     function makeStarsForChecked(event, data) {
         $("div.std-ratings").remove();
-        var checkedStandards = $.jstree._reference("#category-browser").get_checked(null, true).filter(".jstree-leaf[id]");
+        var cat_browse = $.jstree._reference("#category-browser");
+        if (!cat_browse) {
+            return;
+        }
+        var checkedStandards = cat_browse.get_checked(null, true).filter(".jstree-leaf[id]");
 
         checkedStandards.each(function(index, elem) {
             var li = $(elem),
@@ -335,7 +339,9 @@ require(['jquery', 'jquery-ui', 'jquery.rating', 'jquery.jstree', 'jquery.tagsin
         var standards=[];
         
         var traverse = function(tree, ccstd) {
-            if (common.isArray(tree)) {
+            if (!tree) {
+                return;
+            } else if (common.isArray(tree)) {
                 for (var i = 0; i < tree.length; i++) {
                     traverse(tree[i], ccstd);
                 }
@@ -517,13 +523,14 @@ require(['jquery', 'jquery-ui', 'jquery.rating', 'jquery.jstree', 'jquery.tagsin
     }
 
     $("#submit_to_lr").bind('click', function (evt) {
-        var checkedStandards = $.jstree._reference("#category-browser").get_checked(null, true).filter(".jstree-leaf[id]");
+        var cat_browse = $.jstree._reference("#category-browser");
+        var checkedStandards = !cat_browse ? [] : cat_browse.get_checked(null, true).filter(".jstree-leaf[id]");
         var ratedStandards = $("input[type=radio].align-hover-star:checked");
         var ratings = $("input[type=radio].hover-star:checked");
         
         if ((checkedStandards.length > 0 ||
             ratedStandards.length > 0 || 
-            ratings.length == 6) && 
+            ratings.length > 0) && 
             !!$("#tos").attr("checked")) {
 
             var info = {
