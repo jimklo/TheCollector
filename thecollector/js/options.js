@@ -32,10 +32,9 @@ require(['common', 'jquery', 'jquery.tagsinput', 'jquery-ui'], function(common, 
         localStorage["oauth"] = JSON.stringify(options);
         // Update status to let user know options were saved.
         var id = "status_"+ (new Date()).getTime();
-        $("#status").html('<div id="'+id+'">Options Saved.</div>');
+        $(".status").html('<div class="'+id+'">Options Saved.</div>');
         setTimeout(function() {
-            $('#'+id).hide(500);
-            $('#status').remove('#'+id);
+            $('.'+id).hide(500).remove();
         }, 750);
     }
 
@@ -54,10 +53,10 @@ require(['common', 'jquery', 'jquery.tagsinput', 'jquery-ui'], function(common, 
         localStorage["bio"] = JSON.stringify(bio);
         // Update status to let user know options were saved.
         var id = "status_"+ (new Date()).getTime();
-        $("#status").html('<div id="'+id+'">Options Saved.</div>');
+        $(".status").html('<div class="'+id+'">Options Saved.</div>');
         setTimeout(function() {
-            $('#'+id).hide(500);
-            $('#status').remove('#'+id);
+            console.log($('.'+id));
+            $('.'+id).hide(500).remove();
         }, 750);
     }
 

@@ -60,7 +60,13 @@ img.bird {
     display: block;
 }
 
-.clear::after {
+.tabs button.save {
+    display: block;
+    float: left;
+}
+
+
+.clear:after, .tabs button:after {
     content: ".";
     display: block;
     clear: both;
@@ -71,7 +77,7 @@ img.bird {
 
 
 label {
-    font: 14pt "Impact", Verdana, sans-serif;;
+    font: 14pt "Impact", Verdana, sans-serif;
     color: #6C6C6C;
     margin-top: 8px;
 }
@@ -95,3 +101,11 @@ div.tabs {
 
 }
 
+
+.tabs .status {
+    font: 12pt "Impact", Verdana, sans-serif;
+    color: #6C6C6C;
+    line-height: 25pt;
+    margin-left: 71px;
+    height: 30px;
+}

@@ -9,6 +9,12 @@ body {
     font: 10pt Verdana, sans-serif;
 }
 
+.edit {
+    color: #7CB440;
+    font: 8pt Verdana, sans-serif;
+    cursor: hand;
+}
+
 .avatar {
     float: left;
     padding: 4px;

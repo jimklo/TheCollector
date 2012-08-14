@@ -61,6 +61,15 @@ require(['jquery', 'jquery-ui', 'jquery.rating', 'jquery.jstree', 'jquery.tagsin
     }
     restore_bio();
 
+
+    $('span.edit').on('click', function(){
+        var opts = {
+            url: chrome.extension.getURL("options.html#tabs-about-you"),
+            active: true
+        };
+        chrome.tabs.create(opts);
+    });
+
     function restore_twitter() {
         function setTwitter(someTwit) {
             common.render("twitter_user", someTwit, function(html){
