@@ -4,19 +4,33 @@ var moment = require("views/lib/moment-min");
 var _ = require("views/lib/underscore-min");
 
 
-exports.isCollectorDoc = function(doc) {
+exports.isCollectorDoc = function(doc, versions) {
         var isLRParadata = false,
-            isTheCollector = false;
+            isTheCollector = false,
+            validateVersion = _.isArray(versions),
+            isVersioned = undefined;
         if (doc.payload_schema) {
             for (var i=0; i<doc.payload_schema.length; i++) {
                 if (doc.payload_schema[i] === "LR Paradata 1.0") {
                     isLRParadata = true;
                 } else if (doc.payload_schema[i] === "TheCollector") {
-                    isCollectorDoc = true;
+                    isTheCollector = true;
+                } else if (validateVersion && !isVersioned) {
+                    
+                    isVersioned |= false;
+                    for (var j=0; j<versions.length; j++) {
+                        if (doc.payload_schema[i] === "TheCollector "+versions[j]) {
+                            isVersioned = true;
+                            log('valid doc!!!!'+doc.payload_schema[i])
+                            break;
+                        } else {
+                            log('tried validating!!!')
+                        }
+                    }
                 }
             }
         }
-        return isLRParadata && isCollectorDoc;
+        return isLRParadata && isTheCollector && ((!validateVersion && isVersioned === undefined) || (validateVersion && isVersioned));
     };
 
 
