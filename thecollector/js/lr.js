@@ -28,7 +28,7 @@ define(['require', 'common', 'sha1', 'oauth', 'jquery', 'underscore', 'paradata'
             TOS: info.tos,
             resource_locator: info.resource_url,
             payload_placement: "inline",
-            payload_schema: ["LR Paradata 1.0", "TheCollector" ],
+            payload_schema: ["LR Paradata 1.0", "TheCollector", "TheCollector "+chrome.app.getDetails().version],
             resource_data : resource,
             keys: (!!tags && tags.length > 0) ? tags : [ "TheCollector" ]
         };

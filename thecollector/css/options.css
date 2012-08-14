@@ -34,9 +34,10 @@ p.note {
 }
 
 .sign_in_with_twitter {
-      background: white url(../images/sign-in-with-twitter_0.png) no-repeat top;
-      width: 450px;
-      height: 72px;
+      background: white url(../images/sign-in-with-twitter_169x27.png) no-repeat top;
+      border: none;
+      width: 169px;
+      height: 27px;
       color:white;
 }
 

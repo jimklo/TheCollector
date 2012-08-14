@@ -126,7 +126,7 @@ require(['common', 'jquery', 'jquery.tagsinput', 'jquery-ui'], function(common, 
             $(".sign_off_with_twitter").show();
             var twit = bgPage.twitter.getUserInfo();
             if (!!twit && twit.screen_name) {
-                var bio = common.fetchJSON("bio");
+                var bio = common.fetchJSON("bio") || {};
                 bio.twitter = twit.screen_name;
                 common.putJSON("bio", bio);
             }
@@ -152,6 +152,16 @@ require(['common', 'jquery', 'jquery.tagsinput', 'jquery-ui'], function(common, 
 
     }
 
+    var showOauth = -4;
+    function setup_oauthShow() {
+        $("div.hero").bind('click', function (eventObj) {
+            showOauth++;
+            if (showOauth > 0) {
+                $("div#tabs > ul > li > a.ui-tabs-hide").removeClass("ui-tabs-hide");
+                $("#tabs").tabs("select", "tabs-oauth");
+            }
+        });
+    }
 
 
     $(function(){
@@ -165,10 +175,12 @@ require(['common', 'jquery', 'jquery.tagsinput', 'jquery-ui'], function(common, 
         restore_bio();
         restore_twitter();
         handle_other();
+        setup_oauthShow();
 
         $('input.tags').tagsInput({
             height: '100px',
             width: '500px'
         });
+
     });
 });

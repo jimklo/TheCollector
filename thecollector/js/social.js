@@ -4,7 +4,9 @@ define(["require", "jquery", "common", "underscore", "mustache", "moment", "rubr
     require('moment');
     var rubric_util = require('rubric');
 
-    var oauth_info = common.fetchJSON('oauth');
+    var oauth_info = function() {
+            return common.fetchJSON('oauth')
+    };
 
     var resources_since_tmpl = "{{{node_url}}}/extract/thecollector-resources/discriminator-by-resource-ts?resource={{{resource_locator}}}&ids_only=true{{#from}}&from={{{from}}}{{/from}}";
     
@@ -126,7 +128,7 @@ define(["require", "jquery", "common", "underscore", "mustache", "moment", "rubr
 
         var lr_url = Mustache.to_html(resources_since_tmpl, 
             {
-                node_url: oauth_info.node_url,
+                node_url: oauth_info().node_url,
                 resource_locator: url,
                 from: date.toISOString()
             });

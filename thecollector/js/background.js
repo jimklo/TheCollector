@@ -13,7 +13,27 @@ require.config(
         }
 
     });
-require(["jquery", "twitter-oauth", "social"], function($, TwitterOAuth, social) {
+require(["jquery", "twitter-oauth", "social", "lrnode"], function($, TwitterOAuth, social, lrnode) {
+
+    function defaultLRNode() {
+        function setDefault() {
+            localStorage["oauth"] = JSON.stringify(lrnode.oauth);
+        }
+        if (!localStorage.hasOwnProperty("oauth")) {
+            setDefault();
+        } else {
+            var node_oauth = JSON.parse(localStorage["oauth"]);
+
+            var noinit = true;
+            for (var i in lrnode.oauth) {
+                noinit &= !!node_oauth[i];
+            }
+            if (!noinit) {
+                setDefault();
+            }
+        }
+    }
+    defaultLRNode();
 
     var oauth = TwitterOAuth.initBackgroundPage({
         'request_url': 'https://api.twitter.com/oauth/request_token',

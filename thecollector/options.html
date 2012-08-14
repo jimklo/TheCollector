@@ -12,12 +12,12 @@
 <div id="tabs" class="tabs">
     <ul>
         <li><a href="#tabs-about-you">About You</a></li>
-        <li><a href="#tabs-oauth">OAuth Configuration</a></li>
-        <li><a href="#tabs-about">About theCollector</a></li>
+        <li><a href="#tabs-oauth" class="ui-tabs-hide">OAuth Configuration</a></li>
+        <li><a href="#tabs-about">About Collector</a></li>
     </ul>
 
     <div id="tabs-about-you">
-        <label for="twitter">Twitter</label>
+        <label for="twitter">Twitter Login (optional but recommended)</label>
         <button class="sign_in_with_twitter"></button>
         <div id="twitter_info"></div>
         <button class="sign_off_with_twitter" style='display:none;'>Sign off with Twitter</button>
@@ -64,7 +64,7 @@
 
         <button class="save_bio">Save</button>
     </div>
-    <div id="tabs-oauth">
+    <div id="tabs-oauth" class="ui-tabs-hide">
         <label for="node_url">Node URL</label>
         <input type="text" id="node_url">
 
