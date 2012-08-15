@@ -25,7 +25,7 @@ exports.isCollectorDoc = function(doc, versions) {
                             log('valid doc!!!!'+doc.payload_schema[i])
                             break;
                         } else {
-                            log('tried validating!!!')
+                            log('tried validating!!! '+doc._id);
                         }
                     }
                 }
