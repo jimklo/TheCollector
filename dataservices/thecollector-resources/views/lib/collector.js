@@ -3,7 +3,7 @@ var sig_utils = require("views/lib/sig_utils");
 var moment = require("views/lib/moment-min");
 var _ = require("views/lib/underscore-min");
 
-exports.collectorVersions = ["0.1", "0.2", "0.3", "0.4"];
+exports.collectorVersions = ["0.1", "0.2", "0.3", "0.4", "0.5", "0.6"];
 
 exports.isCollectorDoc = function(doc, versions) {
         var isLRParadata = false,
